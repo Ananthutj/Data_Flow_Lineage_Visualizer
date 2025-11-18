@@ -393,226 +393,226 @@ if st.session_state.page == "system_info":
         render_table(df_product_filtered)
 
 
-import streamlit as st
-import base64
-import pandas as pd
-import requests
-from io import BytesIO
-import graphviz
-import textwrap
-import warnings
+# import streamlit as st
+# import base64
+# import pandas as pd
+# import requests
+# from io import BytesIO
+# import graphviz
+# import textwrap
+# import warnings
 
-warnings.filterwarnings("ignore", message="Unverified HTTPS request")
+# warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
-flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f5a74c737e714f8eb83902879047a935/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=g5Zyvj8xIGnKizi0lv6XCdTWbaWuahF1krJTBBq35KI"
+# flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f5a74c737e714f8eb83902879047a935/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=g5Zyvj8xIGnKizi0lv6XCdTWbaWuahF1krJTBBq35KI"
 
 
-try:
-    response = requests.post(flow_url, json={}, verify=False)
+# try:
+#     response = requests.post(flow_url, json={}, verify=False)
 
-    if response.status_code != 200:
-        st.error(f"❌ Flow failed (HTTP {response.status_code}). It did not return data.")
-        st.stop()
+#     if response.status_code != 200:
+#         st.error(f"❌ Flow failed (HTTP {response.status_code}). It did not return data.")
+#         st.stop()
 
-    content_type = response.headers.get("Content-Type", "").lower()
-    if "text/html" in content_type:
-        st.error("❌ Power Automate returned an HTML error page (Flow crashed upstream).")
-        st.stop()
+#     content_type = response.headers.get("Content-Type", "").lower()
+#     if "text/html" in content_type:
+#         st.error("❌ Power Automate returned an HTML error page (Flow crashed upstream).")
+#         st.stop()
 
-    try:
-        parsed_json = response.json()
-        if isinstance(parsed_json, dict) and "error" in parsed_json:
-            st.error(f"❌ Flow Error: {parsed_json['error']}")
-            st.stop()
-    except:
-        pass
+#     try:
+#         parsed_json = response.json()
+#         if isinstance(parsed_json, dict) and "error" in parsed_json:
+#             st.error(f"❌ Flow Error: {parsed_json['error']}")
+#             st.stop()
+#     except:
+#         pass
 
-    if len(response.content) == 0:
-        st.error("❌ Flow returned empty content. Flow likely failed internally.")
-        st.stop()
+#     if len(response.content) == 0:
+#         st.error("❌ Flow returned empty content. Flow likely failed internally.")
+#         st.stop()
 
-    excel_bytes = None
+#     excel_bytes = None
 
-    if "application/json" in content_type:
-        json_body = response.json()
+#     if "application/json" in content_type:
+#         json_body = response.json()
 
-        for key in ["file", "fileContent", "body", "content"]:
-            if key in json_body:
-                excel_bytes = base64.b64decode(json_body[key])
-                break
+#         for key in ["file", "fileContent", "body", "content"]:
+#             if key in json_body:
+#                 excel_bytes = base64.b64decode(json_body[key])
+#                 break
 
-        if excel_bytes is None:
-            st.error("❌ No Excel file content found in JSON response.")
-            st.stop()
+#         if excel_bytes is None:
+#             st.error("❌ No Excel file content found in JSON response.")
+#             st.stop()
 
-    else:
-        excel_bytes = response.content
+#     else:
+#         excel_bytes = response.content
 
    
-    excel_data = BytesIO(excel_bytes)
-    df = pd.read_excel(excel_data, sheet_name="LineageFile")
-    df_desc = pd.read_excel(excel_data, sheet_name="Source Master")
+#     excel_data = BytesIO(excel_bytes)
+#     df = pd.read_excel(excel_data, sheet_name="LineageFile")
+#     df_desc = pd.read_excel(excel_data, sheet_name="Source Master")
 
-    st.success(f"✅ Loaded {len(df)} rows from SharePoint Excel")
+#     st.success(f"✅ Loaded {len(df)} rows from SharePoint Excel")
 
-except Exception as e:
-    err = str(e).lower()
-    if "403" in err or "forbidden" in err or "unauthorized" in err:
-        st.error("❌ You do not have permission to access the SharePoint file.")
-    else:
-        st.error(f"❌ Failed to load Excel: {e}")
-    st.stop()
+# except Exception as e:
+#     err = str(e).lower()
+#     if "403" in err or "forbidden" in err or "unauthorized" in err:
+#         st.error("❌ You do not have permission to access the SharePoint file.")
+#     else:
+#         st.error(f"❌ Failed to load Excel: {e}")
+#     st.stop()
 
 
-st.info("Fetching Excel from SharePoint via Power Automate...")
+# st.info("Fetching Excel from SharePoint via Power Automate...")
 
-with st.expander("🔍 Preview Data"):
-    st.write("**Lineage File:**")
-    st.dataframe(df)
-    st.write("**Source Master:**")
-    st.dataframe(df_desc)
+# with st.expander("🔍 Preview Data"):
+#     st.write("**Lineage File:**")
+#     st.dataframe(df)
+#     st.write("**Source Master:**")
+#     st.dataframe(df_desc)
 
-df.columns = df.columns.str.strip().str.lower()
-df.rename(
-    columns={
-        "product": "Product",
-        "source system": "Source",
-        "connection": "Connection",
-        "target system": "Target",
-        "upstream system": "Upstream",
-        "downstream system": "Downstream",
-    },
-    inplace=True,
-)
+# df.columns = df.columns.str.strip().str.lower()
+# df.rename(
+#     columns={
+#         "product": "Product",
+#         "source system": "Source",
+#         "connection": "Connection",
+#         "target system": "Target",
+#         "upstream system": "Upstream",
+#         "downstream system": "Downstream",
+#     },
+#     inplace=True,
+# )
 
-st.sidebar.header("🎛️ Filters")
+# st.sidebar.header("🎛️ Filters")
 
-show_with_products = st.sidebar.checkbox("Summary Graph", value=False)
-show_without_products = st.sidebar.checkbox("Detailed Graph", value=True)
+# show_with_products = st.sidebar.checkbox("Summary Graph", value=False)
+# show_without_products = st.sidebar.checkbox("Detailed Graph", value=True)
 
-upstream_options = ["All"] + sorted(df["Upstream"].dropna().unique().tolist())
-product_options = ["All"] + sorted(df["Product"].dropna().unique().tolist())
-target_options = ["All"] + sorted(df["Target"].dropna().unique().tolist())
+# upstream_options = ["All"] + sorted(df["Upstream"].dropna().unique().tolist())
+# product_options = ["All"] + sorted(df["Product"].dropna().unique().tolist())
+# target_options = ["All"] + sorted(df["Target"].dropna().unique().tolist())
 
-upstream_filter = st.sidebar.selectbox("Upstream System:", upstream_options)
-product_filter = st.sidebar.selectbox("Product:", product_options)
-target_filter = st.sidebar.selectbox("Target System:", target_options)
+# upstream_filter = st.sidebar.selectbox("Upstream System:", upstream_options)
+# product_filter = st.sidebar.selectbox("Product:", product_options)
+# target_filter = st.sidebar.selectbox("Target System:", target_options)
 
-filtered_df = df.copy()
+# filtered_df = df.copy()
 
-if upstream_filter != "All":
-    filtered_df = filtered_df[filtered_df["Upstream"] == upstream_filter]
-if product_filter != "All":
-    filtered_df = filtered_df[filtered_df["Product"] == product_filter]
-if target_filter != "All":
-    filtered_df = filtered_df[filtered_df["Target"] == target_filter]
+# if upstream_filter != "All":
+#     filtered_df = filtered_df[filtered_df["Upstream"] == upstream_filter]
+# if product_filter != "All":
+#     filtered_df = filtered_df[filtered_df["Product"] == product_filter]
+# if target_filter != "All":
+#     filtered_df = filtered_df[filtered_df["Target"] == target_filter]
 
-filtered_upstreams = ["All"] + sorted(filtered_df["Upstream"].dropna().unique().tolist())
-filtered_products = ["All"] + sorted(filtered_df["Product"].dropna().unique().tolist())
-filtered_targets = ["All"] + sorted(filtered_df["Target"].dropna().unique().tolist())
+# filtered_upstreams = ["All"] + sorted(filtered_df["Upstream"].dropna().unique().tolist())
+# filtered_products = ["All"] + sorted(filtered_df["Product"].dropna().unique().tolist())
+# filtered_targets = ["All"] + sorted(filtered_df["Target"].dropna().unique().tolist())
 
-with st.sidebar.expander("🧠 Available Options (after filtering)"):
-    st.write("Upstream:", filtered_upstreams)
-    st.write("Product:", filtered_products)
-    st.write("Target:", filtered_targets)
+# with st.sidebar.expander("🧠 Available Options (after filtering)"):
+#     st.write("Upstream:", filtered_upstreams)
+#     st.write("Product:", filtered_products)
+#     st.write("Target:", filtered_targets)
 
-if not show_with_products and not show_without_products:
-    st.sidebar.warning("⚠️ Please select at least one graph type to display.")
-    st.stop()
+# if not show_with_products and not show_without_products:
+#     st.sidebar.warning("⚠️ Please select at least one graph type to display.")
+#     st.stop()
 
-unique_edges = filtered_df[["Source", "Connection", "Target"]].drop_duplicates()
+# unique_edges = filtered_df[["Source", "Connection", "Target"]].drop_duplicates()
 
-products_by_pair = (
-    filtered_df.groupby(["Source", "Target"])["Product"]
-    .apply(lambda x: sorted(set(x.dropna())))
-    .to_dict()
-)
+# products_by_pair = (
+#     filtered_df.groupby(["Source", "Target"])["Product"]
+#     .apply(lambda x: sorted(set(x.dropna())))
+#     .to_dict()
+# )
 
-sources = set(unique_edges["Source"])
-targets = set(unique_edges["Target"])
-upstream_nodes = sources - targets
-downstream_nodes = targets - sources
+# sources = set(unique_edges["Source"])
+# targets = set(unique_edges["Target"])
+# upstream_nodes = sources - targets
+# downstream_nodes = targets - sources
 
-def get_color(node):
-    if node in upstream_nodes:
-        return "#6DB4ED"
-    elif node in downstream_nodes:
-        return "#4CAF50"
-    else:
-        return "#FFC107"
+# def get_color(node):
+#     if node in upstream_nodes:
+#         return "#6DB4ED"
+#     elif node in downstream_nodes:
+#         return "#4CAF50"
+#     else:
+#         return "#FFC107"
 
-def wrap_text(text, width=30):
-    return "<BR/>".join(textwrap.wrap(text, width=width))
+# def wrap_text(text, width=30):
+#     return "<BR/>".join(textwrap.wrap(text, width=width))
 
-def add_node(dot_obj, node, color, include_products=False):
-    if not node or str(node).strip() == "":
-        return
+# def add_node(dot_obj, node, color, include_products=False):
+#     if not node or str(node).strip() == "":
+#         return
 
-    node = str(node).strip()
+#     node = str(node).strip()
 
-    incoming, outgoing = [], []
-    for (src, tgt), plist in products_by_pair.items():
-        if str(tgt).strip() == node:
-            incoming.extend(plist)
-        if str(src).strip() == node:
-            outgoing.extend(plist)
+#     incoming, outgoing = [], []
+#     for (src, tgt), plist in products_by_pair.items():
+#         if str(tgt).strip() == node:
+#             incoming.extend(plist)
+#         if str(src).strip() == node:
+#             outgoing.extend(plist)
 
-    incoming, outgoing = sorted(set(incoming)), sorted(set(outgoing))
+#     incoming, outgoing = sorted(set(incoming)), sorted(set(outgoing))
 
-    source_row = df_desc[df_desc["Source_Code"].astype(str).str.strip() == node]
-    system_name = source_row["Source_System"].iloc[0] if not source_row.empty else ""
-    desc = source_row["Source_Desc"].iloc[0] if not source_row.empty else ""
+#     source_row = df_desc[df_desc["Source_Code"].astype(str).str.strip() == node]
+#     system_name = source_row["Source_System"].iloc[0] if not source_row.empty else ""
+#     desc = source_row["Source_Desc"].iloc[0] if not source_row.empty else ""
 
-    header_lines = f"""
-    <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0">
-        <TR><TD ALIGN="CENTER"><B><FONT POINT-SIZE='10'>{node.upper()}</FONT></B></TD></TR>
-        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE='10'>{system_name}</FONT></TD></TR>
-        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE='10'>{desc}</FONT></TD></TR>
-    </TABLE>
-    """
+#     header_lines = f"""
+#     <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="1" CELLSPACING="0">
+#         <TR><TD ALIGN="CENTER"><B><FONT POINT-SIZE='10'>{node.upper()}</FONT></B></TD></TR>
+#         <TR><TD ALIGN="CENTER"><FONT POINT-SIZE='10'>{system_name}</FONT></TD></TR>
+#         <TR><TD ALIGN="CENTER"><FONT POINT-SIZE='10'>{desc}</FONT></TD></TR>
+#     </TABLE>
+#     """
 
-    rows = f"<TR><TD ALIGN='CENTER'>{header_lines}</TD></TR>"
+#     rows = f"<TR><TD ALIGN='CENTER'>{header_lines}</TD></TR>"
 
-    if include_products:
-        rows += """<TR><TD BGCOLOR="black" HEIGHT="1" WIDTH="100%"></TD></TR>"""
-        rows += """<TR><TD ALIGN="CENTER"><FONT POINT-SIZE="10"><B><U>Products:</U></B></FONT></TD></TR>"""
-        all_products = sorted(set(incoming + outgoing))
-        for p in all_products:
-            rows += f"<TR><TD ALIGN='CENTER'><FONT POINT-SIZE='10'>{wrap_text(str(p), 30)}</FONT></TD></TR>"""
+#     if include_products:
+#         rows += """<TR><TD BGCOLOR="black" HEIGHT="1" WIDTH="100%"></TD></TR>"""
+#         rows += """<TR><TD ALIGN="CENTER"><FONT POINT-SIZE="10"><B><U>Products:</U></B></FONT></TD></TR>"""
+#         all_products = sorted(set(incoming + outgoing))
+#         for p in all_products:
+#             rows += f"<TR><TD ALIGN='CENTER'><FONT POINT-SIZE='10'>{wrap_text(str(p), 30)}</FONT></TD></TR>"""
 
-    label = f"""<
-    <TABLE BORDER="1" CELLBORDER="0" CELLPADDING="3" CELLSPACING="0" ALIGN="CENTER" BGCOLOR="{color}">
-        {rows}
-    </TABLE>
-    >"""
+#     label = f"""<
+#     <TABLE BORDER="1" CELLBORDER="0" CELLPADDING="3" CELLSPACING="0" ALIGN="CENTER" BGCOLOR="{color}">
+#         {rows}
+#     </TABLE>
+#     >"""
 
-    dot_obj.node(node, label=label, shape="none", fontsize="16", fontname="Arial")
+#     dot_obj.node(node, label=label, shape="none", fontsize="16", fontname="Arial")
 
-def build_graph(include_products=False):
-    dot = graphviz.Digraph(format="svg")
-    dot.attr(rankdir="LR", fontname="Calibri")
-    added_nodes = set()
+# def build_graph(include_products=False):
+#     dot = graphviz.Digraph(format="svg")
+#     dot.attr(rankdir="LR", fontname="Calibri")
+#     added_nodes = set()
 
-    for _, row in unique_edges.iterrows():
-        s, c, t = str(row["Source"]).strip(), str(row["Connection"]).strip(), str(row["Target"]).strip()
-        if not s or not t:
-            continue
+#     for _, row in unique_edges.iterrows():
+#         s, c, t = str(row["Source"]).strip(), str(row["Connection"]).strip(), str(row["Target"]).strip()
+#         if not s or not t:
+#             continue
 
-        if s not in added_nodes:
-            add_node(dot, s, get_color(s), include_products)
-            added_nodes.add(s)
-        if t not in added_nodes:
-            add_node(dot, t, get_color(t), include_products)
-            added_nodes.add(t)
+#         if s not in added_nodes:
+#             add_node(dot, s, get_color(s), include_products)
+#             added_nodes.add(s)
+#         if t not in added_nodes:
+#             add_node(dot, t, get_color(t), include_products)
+#             added_nodes.add(t)
 
-        dot.edge(s, t, label=str(c))
+#         dot.edge(s, t, label=str(c))
 
-    return dot
+#     return dot
 
-if show_without_products:
-    st.subheader("📘 Detailed Graph")
-    st.graphviz_chart(build_graph(include_products=False), use_container_width=True)
+# if show_without_products:
+#     st.subheader("📘 Detailed Graph")
+#     st.graphviz_chart(build_graph(include_products=False), use_container_width=True)
 
-if show_with_products:
-    st.subheader("📗 Summary Graph")
-    st.graphviz_chart(build_graph(include_products=True), use_container_width=True)
+# if show_with_products:
+#     st.subheader("📗 Summary Graph")
+#     st.graphviz_chart(build_graph(include_products=True), use_container_width=True)
