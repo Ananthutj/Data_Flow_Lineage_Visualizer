@@ -258,6 +258,33 @@ import base64
 # ------------------------------------------------------------
 st.set_page_config(page_title="Secure Streamlit Portal", layout="centered")
 
+# ------------------------------------------------------------
+# HIDE STREAMLIT UI (GitHub, Share, Manage App, Menu)
+# ------------------------------------------------------------
+hide_streamlit_ui = """
+    <style>
+        /* Hide the hamburger menu */
+        #MainMenu {visibility: hidden;}
+
+        /* Hide the deploy/share/github toolbar */
+        header[data-testid="stHeader"] div [data-testid="stToolbar"] {
+            display: none !important;
+        }
+
+        /* Hide "Manage App" button on bottom-right */
+        button[kind="toolbar"] {
+            display: none !important;
+        }
+
+        /* Hide floating help icon if any */
+        .stAppDeployButton {
+            display: none !important;
+        }
+    </style>
+"""
+st.markdown(hide_streamlit_ui, unsafe_allow_html=True)
+
+
 st.title("🔐 Secure Streamlit Portal")
 
 # Track login state
