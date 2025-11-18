@@ -1,12 +1,20 @@
 import streamlit as st
 import base64
 
+# ------------------------------------------------------------
+# PAGE CONFIG
+# ------------------------------------------------------------
 st.set_page_config(page_title="Secure Streamlit Portal", layout="centered")
+
 st.title("🔐 Secure Streamlit Portal")
 
-# ---------------------------
-# Get Base64 encoded email from URL
-# ---------------------------
+# Track login state
+if "verified" not in st.session_state:
+    st.session_state.verified = False
+
+# ------------------------------------------------------------
+# GET Base64 email from URL
+# ------------------------------------------------------------
 params = st.experimental_get_query_params()
 encoded_data = params.get("data", [""])[0]
 
@@ -14,37 +22,44 @@ if not encoded_data:
     st.error("❌ Invalid access. Please open this app through Power Apps.")
     st.stop()
 
-# Decode the email
+# Decode email
 try:
     decoded_email = base64.b64decode(encoded_data).decode("utf-8")
 except Exception:
     st.error("❌ Invalid or corrupted link.")
     st.stop()
 
-# ---------------------------
-# Ask user to enter their email
-# ---------------------------
-st.write("Please verify your email to continue:")
-user_email = st.text_input("Enter your company email:")
+# ------------------------------------------------------------
+# LOGIN SECTION (SHOW ONLY IF NOT VERIFIED)
+# ------------------------------------------------------------
+if not st.session_state.verified:
 
-verified = False
+    st.write("Please verify your email to continue:")
+    user_email = st.text_input("Enter your company email:")
 
-if st.button("Verify"):
-    if not user_email:
-        st.warning("Please enter your email.")
-    elif user_email.strip().lower() == decoded_email.strip().lower():
-        st.success(f"✅ Access granted! Welcome, {user_email}")
-        verified = True
-    else:
-        st.error("❌ Email does not match. Access denied.")
+    if st.button("Verify"):
+        if not user_email:
+            st.warning("Please enter your email.")
 
-# STOP PAGE IF NOT VERIFIED
-if not verified:
+        elif user_email.strip().lower() == decoded_email.strip().lower():
+            st.session_state.verified = True
+            st.session_state.user_email = user_email
+            st.success(f"✅ Access granted! Welcome, {user_email}")
+
+            # Reload page WITHOUT showing login again
+            st.rerun()
+        else:
+            st.error("❌ Email does not match. Access denied.")
+
     st.stop()
 
-# -------------------------------------------------------
-# ⭐ SECURE AREA — All heavy imports ONLY after verified
-# -------------------------------------------------------
+
+# ------------------------------------------------------------
+# ⭐ SECURE AREA (SHOWN ONLY AFTER LOGIN)
+# ------------------------------------------------------------
+st.set_page_config(page_title="Data Flow Graph", layout="wide")
+st.title("L-R Directed Data Flow")
+
 import pandas as pd
 import requests
 from io import BytesIO
@@ -52,15 +67,14 @@ import graphviz
 import textwrap
 import warnings
 
-st.set_page_config(page_title="Data Flow Graph", layout="wide")
-st.title("L-R Directed Data Flow")
-
 warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
-# ---- rest of your graph code continues below ----
+# ------------------------------------------------------------
+# FETCHING EXCEL THROUGH POWER AUTOMATE
+# ------------------------------------------------------------
 
+flow_url = "YOUR_FLOW_URL_HERE"
 
-flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f5a74c737e714f8eb83902879047a935/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=g5Zyvj8xIGnKizi0lv6XCdTWbaWuahF1krJTBBq35KI"
 st.info("Fetching Excel from SharePoint via Power Automate...")
 
 try:
@@ -68,7 +82,7 @@ try:
     response.raise_for_status()
 
     content_type = response.headers.get("Content-Type", "")
-    
+
     excel_bytes = None
 
     if "application/json" in content_type:
@@ -79,10 +93,13 @@ try:
                 break
         if excel_bytes is None:
             raise ValueError("No base64 Excel content found in JSON response")
+
     else:
         excel_bytes = response.content
 
     excel_data = BytesIO(excel_bytes)
+
+    # ❗ REQUIREMENT: openpyxl MUST be installed
     df = pd.read_excel(excel_data, sheet_name="LineageFile")
     df_desc = pd.read_excel(excel_data, sheet_name="Source Master")
 
@@ -95,11 +112,19 @@ except Exception as e:
     st.error(f"❌ Failed to load Excel: {e}")
     st.stop()
 
+# ------------------------------------------------------------
+# PREVIEW DATA
+# ------------------------------------------------------------
+
 with st.expander("🔍 Preview Data"):
     st.write("**Lineage File:**")
     st.dataframe(df)
     st.write("**Source Master:**")
     st.dataframe(df_desc)
+
+# ------------------------------------------------------------
+# CLEANING + FILTERING
+# ------------------------------------------------------------
 
 df.columns = df.columns.str.strip().str.lower()
 df.rename(
@@ -216,11 +241,9 @@ def add_node(dot_obj, node, color, include_products=False):
     </TABLE>
     >"""
 
-    import graphviz
     dot_obj.node(node, label=label, shape="none", fontsize="16", fontname="Arial")
 
 def build_graph(include_products=False):
-    import graphviz
     dot = graphviz.Digraph(format="svg")
     dot.attr(rankdir="LR", fontname="Calibri")
     added_nodes = set()
@@ -240,6 +263,11 @@ def build_graph(include_products=False):
         dot.edge(s, t, label=str(c))
 
     return dot
+
+
+# ------------------------------------------------------------
+# SHOW GRAPH(S)
+# ------------------------------------------------------------
 
 if show_without_products:
     st.subheader("📘 Detailed Graph")
