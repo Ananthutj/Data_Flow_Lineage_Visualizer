@@ -409,26 +409,39 @@ warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
 flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f5a74c737e714f8eb83902879047a935/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=g5Zyvj8xIGnKizi0lv6XCdTWbaWuahF1krJTBBq35KI"
 
-
 st.info("Fetching Excel from SharePoint via Power Automate...")
 
 try:
-    response = requests.post(flow_url, json={}, verify=False)
+    response = requests.post(flow_url, json={}, verify=False, allow_redirects=False)
+
+    # 🚨 1. Check redirect to login page (No access)
+    if response.status_code in [301, 302, 307, 308]:
+        st.error("❌ Access denied: You do not have permission to access the SharePoint file.")
+        st.stop()
+
+    # 🚨 2. Check unauthorized
+    if response.status_code == 401:
+        st.error("❌ Unauthorized: Your account does not have SharePoint access.")
+        st.stop()
+
+    # 🚨 3. Check if HTML login page is returned
+    content_type = response.headers.get("Content-Type", "")
+    if "text/html" in content_type:
+        st.error("❌ Failed to load: SharePoint or Flow access missing.")
+        st.stop()
+
     response.raise_for_status()
 
-    content_type = response.headers.get("Content-Type", "")
-
-    excel_bytes = None
-
+    # 4. Process Excel normally
     if "application/json" in content_type:
         file_json = response.json()
+        excel_bytes = None
         for key in ["file", "fileContent", "body", "content"]:
             if key in file_json:
                 excel_bytes = base64.b64decode(file_json[key])
                 break
         if excel_bytes is None:
             raise ValueError("No base64 Excel content found in JSON response")
-
     else:
         excel_bytes = response.content
 
@@ -436,9 +449,6 @@ try:
 
     df = pd.read_excel(excel_data, sheet_name="LineageFile")
     df_desc = pd.read_excel(excel_data, sheet_name="Source Master")
-
-    df = df.fillna("")
-    df_desc = df_desc.fillna("")
 
     st.success(f"✅ Loaded {len(df)} rows from SharePoint Excel")
 
