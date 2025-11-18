@@ -255,22 +255,88 @@ import base64
 
 st.set_page_config(page_title="L-R Directed Data Flow", layout="centered")
 
-hide_icons = """
-<style>
+# put this immediately after st.set_page_config(...)
+js_hide_icons = """
+<script>
+(function() {
+  const removeTargets = () => {
+    try {
+      // 1) Hide by aria/title if present
+      const selectors = [
+        'button[aria-label="Edit source code"]',
+        'button[title="Edit"]',
+        'a[aria-label="GitHub repository"]',
+        'a[title="View source code"]'
+      ];
+      selectors.forEach(s => {
+        document.querySelectorAll(s).forEach(el => el.style.display = 'none');
+      });
 
-/* --- HIDE Edit (pencil) icon in deployed mode --- */
-button[kind="header"] svg[xmlns="http://www.w3.org/2000/svg"][width="14"][height="14"] path[d^="M15.502"] {
-    display: none !important;
-}
+      // 2) Hide by matching SVG path substrings (pencil & github) — robust fallback
+      const svgPathMatches = [
+        // pencil: common path parts seen in deployed apps (may vary)
+        "M15.5 1.5",    // variant
+        "M12.3 2.3",    // variant
+        // github: typical starting fragment
+        "M12 .297c-6.63", 
+        "M8 0C3.58"     // variant
+      ];
 
-/* --- HIDE GitHub icon in deployed mode --- */
-button[kind="header"] svg[xmlns="http://www.w3.org/2000/svg"][width="15"][height="15"] path[d^="M8 0C3.58"] {
-    display: none !important;
-}
+      document.querySelectorAll('svg path').forEach(pathEl => {
+        const d = pathEl.getAttribute('d') || "";
+        for (const frag of svgPathMatches) {
+          if (d.indexOf(frag) !== -1) {
+            // walk up to nearest clickable container and hide it
+            let parent = pathEl;
+            for (let i=0;i<6;i++){
+              if (!parent) break;
+              if (parent.tagName && (parent.tagName.toLowerCase() === 'button' || parent.tagName.toLowerCase() === 'a' || parent.getAttribute && parent.getAttribute('role') === 'button')) {
+                parent.style.display = 'none';
+                break;
+              }
+              parent = parent.parentElement;
+            }
+          }
+        }
+      });
 
-</style>
+      // 3) As a last resort, hide specific children inside header actions:
+      // Keep last child (three-dots) visible, hide pencil & github if they are second-last or third-last.
+      const headerActions = document.querySelector('header [data-testid="stHeaderActions"]');
+      if (headerActions) {
+        const children = Array.from(headerActions.children);
+        // Try to find pencil/github by checking for svg title/text "Edit" or github path inside each child
+        children.forEach(child => {
+          // check text content or title attribute
+          const txt = (child.textContent || '').toLowerCase();
+          if (txt.includes('edit') || txt.includes('github') || child.querySelector('svg path[d*="M12 .297c-6.63"]')) {
+            child.style.display = 'none';
+          }
+        });
+      }
+    } catch (e) {
+      console && console.warn && console.warn('hide-icons script error', e);
+    }
+  };
+
+  // Run once now
+  removeTargets();
+
+  // Also observe DOM changes and re-run
+  const observer = new MutationObserver((mutations) => {
+    removeTargets();
+  });
+  observer.observe(document.documentElement || document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  // Stop observing after 10s (optional) to reduce overhead
+  setTimeout(()=>{ observer.disconnect(); }, 10000);
+})();
+</script>
 """
-st.markdown(hide_icons, unsafe_allow_html=True)
+st.markdown(js_hide_icons, unsafe_allow_html=True)
 
 
 st.title("🔐 Secure Streamlit Portal")
