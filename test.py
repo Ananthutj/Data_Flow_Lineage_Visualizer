@@ -5,24 +5,25 @@ st.set_page_config(page_title="Secure Streamlit Portal", layout="centered")
 
 st.title("Desj Visualization Portal")
 
-params = st.query_params
+# ---- FIX 1: Correct API ----
+params = st.query_params()
 encoded_data = params.get("data", [""])[0]
 
 if not encoded_data:
     st.error("Invalid access. Please open this app through Power Apps.")
     st.stop()
 
+# Decode the Base64 payload
 try:
     decoded_email = base64.b64decode(encoded_data).decode("utf-8")
 except Exception:
     st.error("Invalid or corrupted link.")
     st.stop()
 
-# Session state for login
+# Initialize session
 if "verified" not in st.session_state:
     st.session_state.verified = False
 
-# If NOT verified → show login screen
 if not st.session_state.verified:
 
     st.write("Please verify your email to continue:")
@@ -34,13 +35,14 @@ if not st.session_state.verified:
         elif user_email.strip().lower() == decoded_email.strip().lower():
             st.session_state.verified = True
             st.session_state.user_email = user_email
-            st.experimental_rerun()
+            st.rerun()   # ---- FIX 3 ----
         else:
             st.error("Email does not match. Access denied.")
 
-# If STILL not verified → STOP ENTIRE APP
 if not st.session_state.verified:
     st.stop()
+
+st.success(f"Welcome, {st.session_state.user_email}!")
 
 # ------------------------------------------------------
 # STEP 2 — SHOW YOUR DATA-FLOW GRAPH ONLY AFTER LOGIN
