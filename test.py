@@ -43,10 +43,6 @@ if st.button("Verify"):
         st.error("❌ Email does not match. Access denied.")
 
 
-
-st.success(f"Access granted! Welcome")
-
-
 # ---- FROM HERE, YOUR ORIGINAL STEP 2 CODE GOES BELOW ----
 
 import pandas as pd
