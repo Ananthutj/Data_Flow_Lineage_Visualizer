@@ -5,8 +5,7 @@ st.set_page_config(page_title="Secure Streamlit Portal", layout="centered")
 
 st.title("Desj Visualization Portal")
 
-# ---- FIX 1: Correct API ----
-params = st.query_params()
+params = st.query_params
 encoded_data = params.get("data", [""])[0]
 
 if not encoded_data:
