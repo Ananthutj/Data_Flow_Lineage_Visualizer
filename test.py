@@ -61,7 +61,7 @@ st.title("L-R Directed Data Flow")
 
 warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
-flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7a9b274a8f51431298fa337db36263a7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=78Ck9Lh3DrNmJsOwSybAbDojXj_kra1LXiAxcet6MeI"
+flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f5a74c737e714f8eb83902879047a935/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=g5Zyvj8xIGnKizi0lv6XCdTWbaWuahF1krJTBBq35KI"
 
 st.info("Fetching Excel from SharePoint via Power Automate...")
 
