@@ -2,7 +2,8 @@ import streamlit as st
 import base64
 
 st.set_page_config(page_title="Secure Streamlit Portal", layout="centered")
-st.title("🔐 Secure Streamlit Portal")
+
+st.title("Secure Streamlit Portal")
 
 params = st.query_params
 encoded_data = params.get("data", [""])[0]
