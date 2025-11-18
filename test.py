@@ -44,11 +44,8 @@ if st.button("Verify"):
 
 
 
-# ------------------------------------------------------
-# STEP 2 — SHOW YOUR DATA-FLOW GRAPH ONLY AFTER LOGIN
-# ------------------------------------------------------
+st.success(f"Access granted! Welcome")
 
-st.success(f"Access granted! Welcome, {st.session_state.user_email}")
 
 # ---- FROM HERE, YOUR ORIGINAL STEP 2 CODE GOES BELOW ----
 
