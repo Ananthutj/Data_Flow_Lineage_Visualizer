@@ -258,17 +258,17 @@ st.set_page_config(page_title="L-R Directed Data Flow", layout="centered")
 hide_streamlit_ui = """
 <style>
 
-    /* HIDE Share / Star / Edit / GitHub */
-    header [data-testid="stHeaderActions"] {
+    /* HIDE Share, Star, Edit, GitHub */
+    header [data-testid="stHeaderActions"] > div:nth-child(-n+4) {
         display: none !important;
     }
 
-    /* HIDE GitHub icon if rendered separately */
+    /* HIDE GitHub icon (if rendered separately) */
     a[aria-label="GitHub repository"] {
         display: none !important;
     }
 
-    /* HIDE "Manage app" button at bottom-right */
+    /* HIDE "Manage app" bottom right button */
     [data-testid="stDeployButton"] {
         display: none !important;
     }
@@ -276,9 +276,7 @@ hide_streamlit_ui = """
         display: none !important;
     }
 
-    /* DO NOT hide MainMenu — keep settings! */
-    /* #MainMenu {visibility: hidden;}  <-- REMOVE THIS */
-
+    /* DO NOT hide the 3-dots settings menu */
 </style>
 """
 st.markdown(hide_streamlit_ui, unsafe_allow_html=True)
