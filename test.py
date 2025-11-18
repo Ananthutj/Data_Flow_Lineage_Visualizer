@@ -12,12 +12,15 @@ if not encoded_data:
     st.error("Invalid access. Please open this app through Power Apps.")
     st.stop()
 
-# Decode the Base64 payload
+    
 try:
     decoded_email = base64.b64decode(encoded_data).decode("utf-8")
-except Exception:
+    st.write("DECODED:", decoded_email)
+except Exception as e:
+    st.write("ERROR:", str(e))
     st.error("Invalid or corrupted link.")
     st.stop()
+
 
 # Initialize session
 if "verified" not in st.session_state:
