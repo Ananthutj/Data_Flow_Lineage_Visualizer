@@ -83,7 +83,7 @@ def go_to_graph():
 if st.session_state.page == "graph":
 
     st.set_page_config(page_title="Data Flow Graph", layout="wide")
-    # st.title("L-R Directed Data Flow")
+    st.title("L-R Directed Data Flow")
 
     file_path = "Sooraj7.xlsx"
     sheet1 = "Sheet1"
