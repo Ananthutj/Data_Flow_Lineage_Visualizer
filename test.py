@@ -279,7 +279,7 @@ hide_icons = """
 
 st.markdown(hide_icons, unsafe_allow_html=True)
 
-st.title("🔐 Secure Streamlit Portal")
+# st.title("🔐 Secure Streamlit Portal")
 
 # Track login state
 if "verified" not in st.session_state:
