@@ -412,49 +412,63 @@ flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatf
 st.info("Fetching Excel from SharePoint via Power Automate...")
 
 try:
-    response = requests.post(flow_url, json={}, verify=False, allow_redirects=False)
+    response = requests.post(flow_url, json={}, verify=False)
 
-    # 🚨 1. Check redirect to login page (No access)
-    if response.status_code in [301, 302, 307, 308]:
-        st.error("❌ Access denied: You do not have permission to access the SharePoint file.")
+    # Case 1: Flow-level error (502, 404, 500 etc.)
+    if response.status_code >= 400:
+        msg = response.text.lower()
+
+        if "forbidden" in msg or "unauthorized" in msg or "accessdenied" in msg:
+            st.error("❌ You do not have access to the SharePoint location.")
+            st.stop()
+
+        st.error(f"❌ Flow failed. Status: {response.status_code}")
         st.stop()
 
-    # 🚨 2. Check unauthorized
-    if response.status_code == 401:
-        st.error("❌ Unauthorized: Your account does not have SharePoint access.")
-        st.stop()
+    # Case 2: JSON response containing an inner 403
+    try:
+        body = response.json()
+        body_str = str(body).lower()
 
-    # 🚨 3. Check if HTML login page is returned
+        if "unauthorized" in body_str or "forbidden" in body_str:
+            st.error("❌ You do not have access to the SharePoint location.")
+            st.stop()
+
+    except:
+        pass  # response may not be JSON, continue
+
+    # Extract file
     content_type = response.headers.get("Content-Type", "")
-    if "text/html" in content_type:
-        st.error("❌ Failed to load: SharePoint or Flow access missing.")
-        st.stop()
+    excel_bytes = None
 
-    response.raise_for_status()
-
-    # 4. Process Excel normally
     if "application/json" in content_type:
-        file_json = response.json()
-        excel_bytes = None
+        json_body = response.json()
         for key in ["file", "fileContent", "body", "content"]:
-            if key in file_json:
-                excel_bytes = base64.b64decode(file_json[key])
+            if key in json_body:
+                excel_bytes = base64.b64decode(json_body[key])
                 break
+
         if excel_bytes is None:
             raise ValueError("No base64 Excel content found in JSON response")
+
     else:
         excel_bytes = response.content
 
+    # Load Excel
     excel_data = BytesIO(excel_bytes)
-
     df = pd.read_excel(excel_data, sheet_name="LineageFile")
     df_desc = pd.read_excel(excel_data, sheet_name="Source Master")
 
     st.success(f"✅ Loaded {len(df)} rows from SharePoint Excel")
 
 except Exception as e:
-    st.error(f"❌ Failed to load Excel: {e}")
+    if "403" in str(e) or "unauthorized" in str(e).lower() or "forbidden" in str(e).lower():
+        st.error("❌ You do not have permission to access the Excel file in SharePoint.")
+    else:
+        st.error(f"❌ Failed to load Excel: {e}")
+
     st.stop()
+
 
 
 with st.expander("🔍 Preview Data"):
