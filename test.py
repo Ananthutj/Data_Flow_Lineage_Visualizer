@@ -258,49 +258,31 @@ st.set_page_config(page_title="L-R Directed Data Flow", layout="centered")
 hide_streamlit_ui = """
 <style>
 
-    /* Hide main menu */
-    #MainMenu {visibility: hidden;}
-
-    /* Hide top-right toolbar (Share, Star, Edit, GitHub) */
-    [data-testid="stToolbar"] {
-        display: none !important;
-    }
+    /* HIDE Share / Star / Edit / GitHub */
     header [data-testid="stHeaderActions"] {
         display: none !important;
     }
-    header div button[title] {
-        display: none !important;
-    }
 
-    /* Hide Streamlit Cloud "Share" button */
-    button[aria-label="Share"] {
-        display: none !important;
-    }
-
-    /* Hide Edit pencil icon */
-    button[aria-label="Edit source code"] {
-        display: none !important;
-    }
-
-    /* Hide GitHub icon */
+    /* HIDE GitHub icon if rendered separately */
     a[aria-label="GitHub repository"] {
         display: none !important;
     }
 
-    /* Hide bottom-right Manage App button */
+    /* HIDE "Manage app" button at bottom-right */
     [data-testid="stDeployButton"] {
         display: none !important;
     }
     .stAppDeployButton {
         display: none !important;
     }
-    button[kind="toolbar"] {
-        display: none !important;
-    }
+
+    /* DO NOT hide MainMenu — keep settings! */
+    /* #MainMenu {visibility: hidden;}  <-- REMOVE THIS */
 
 </style>
 """
 st.markdown(hide_streamlit_ui, unsafe_allow_html=True)
+
 
 st.title("🔐 Secure Streamlit Portal")
 
