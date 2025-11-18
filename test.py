@@ -393,11 +393,8 @@
 #         render_table(df_product_filtered)
 
 
-
-
 import streamlit as st
 import base64
-
 import pandas as pd
 import requests
 from io import BytesIO
@@ -413,47 +410,45 @@ flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatf
 try:
     response = requests.post(flow_url, json={}, verify=False)
 
-    # Case 1: Flow-level error (502, 404, 500 etc.)
-    if response.status_code >= 400:
-        msg = response.text.lower()
-
-        if "forbidden" in msg or "unauthorized" in msg or "accessdenied" in msg:
-            st.error("❌ You do not have access to the SharePoint location.")
-            st.stop()
-
-        st.error(f"❌ Failed. Status: {response.status_code}")
+    if response.status_code != 200:
+        st.error(f"❌ Flow failed (HTTP {response.status_code}). It did not return data.")
         st.stop()
 
-    # Case 2: JSON response containing an inner 403
+    content_type = response.headers.get("Content-Type", "").lower()
+    if "text/html" in content_type:
+        st.error("❌ Power Automate returned an HTML error page (Flow crashed upstream).")
+        st.stop()
+
     try:
-        body = response.json()
-        body_str = str(body).lower()
-
-        if "unauthorized" in body_str or "forbidden" in body_str:
-            st.error("❌ You do not have access to the SharePoint location.")
+        parsed_json = response.json()
+        if isinstance(parsed_json, dict) and "error" in parsed_json:
+            st.error(f"❌ Flow Error: {parsed_json['error']}")
             st.stop()
-
     except:
-        pass  # response may not be JSON, continue
+        pass
 
-    # Extract file
-    content_type = response.headers.get("Content-Type", "")
+    if len(response.content) == 0:
+        st.error("❌ Flow returned empty content. Flow likely failed internally.")
+        st.stop()
+
     excel_bytes = None
 
     if "application/json" in content_type:
         json_body = response.json()
+
         for key in ["file", "fileContent", "body", "content"]:
             if key in json_body:
                 excel_bytes = base64.b64decode(json_body[key])
                 break
 
         if excel_bytes is None:
-            raise ValueError("No base64 Excel content found in JSON response")
+            st.error("❌ No Excel file content found in JSON response.")
+            st.stop()
 
     else:
         excel_bytes = response.content
 
-    # Load Excel
+   
     excel_data = BytesIO(excel_bytes)
     df = pd.read_excel(excel_data, sheet_name="LineageFile")
     df_desc = pd.read_excel(excel_data, sheet_name="Source Master")
@@ -461,22 +456,21 @@ try:
     st.success(f"✅ Loaded {len(df)} rows from SharePoint Excel")
 
 except Exception as e:
-    if "403" in str(e) or "unauthorized" in str(e).lower() or "forbidden" in str(e).lower():
-        st.error("❌ You do not have permission to access the Excel file in SharePoint.")
+    err = str(e).lower()
+    if "403" in err or "forbidden" in err or "unauthorized" in err:
+        st.error("❌ You do not have permission to access the SharePoint file.")
     else:
         st.error(f"❌ Failed to load Excel: {e}")
-
     st.stop()
 
-st.info("Fetching Excel from SharePoint via Power Automate...")
 
+st.info("Fetching Excel from SharePoint via Power Automate...")
 
 with st.expander("🔍 Preview Data"):
     st.write("**Lineage File:**")
     st.dataframe(df)
     st.write("**Source Master:**")
     st.dataframe(df_desc)
-
 
 df.columns = df.columns.str.strip().str.lower()
 df.rename(
@@ -548,7 +542,6 @@ def get_color(node):
         return "#FFC107"
 
 def wrap_text(text, width=30):
-    import textwrap
     return "<BR/>".join(textwrap.wrap(text, width=width))
 
 def add_node(dot_obj, node, color, include_products=False):
