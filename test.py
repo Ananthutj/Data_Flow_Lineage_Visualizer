@@ -409,7 +409,6 @@ warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
 flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f5a74c737e714f8eb83902879047a935/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=g5Zyvj8xIGnKizi0lv6XCdTWbaWuahF1krJTBBq35KI"
 
-st.info("Fetching Excel from SharePoint via Power Automate...")
 
 try:
     response = requests.post(flow_url, json={}, verify=False)
@@ -422,7 +421,7 @@ try:
             st.error("❌ You do not have access to the SharePoint location.")
             st.stop()
 
-        st.error(f"❌ Flow failed. Status: {response.status_code}")
+        st.error(f"❌ Failed. Status: {response.status_code}")
         st.stop()
 
     # Case 2: JSON response containing an inner 403
@@ -469,6 +468,7 @@ except Exception as e:
 
     st.stop()
 
+st.info("Fetching Excel from SharePoint via Power Automate...")
 
 
 with st.expander("🔍 Preview Data"):
