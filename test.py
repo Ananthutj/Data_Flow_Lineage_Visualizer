@@ -25,15 +25,9 @@ hide_icons = """
 
 st.markdown(hide_icons, unsafe_allow_html=True)
 
-st.title("Desj Visualization Graph")
-
-# Track login state
 if "verified" not in st.session_state:
     st.session_state.verified = False
 
-# ------------------------------------------------------------
-# GET Base64 email from URL
-# ------------------------------------------------------------
 params = st.experimental_get_query_params()
 encoded_data = params.get("data", [""])[0]
 
@@ -41,17 +35,15 @@ if not encoded_data:
     st.error("❌ Invalid access. Please open this app through Power Apps.")
     st.stop()
 
-# Decode email
 try:
     decoded_email = base64.b64decode(encoded_data).decode("utf-8")
 except Exception:
     st.error("❌ Invalid or corrupted link.")
     st.stop()
 
-# ------------------------------------------------------------
-# LOGIN SECTION (SHOW ONLY IF NOT VERIFIED)
-# ------------------------------------------------------------
 if not st.session_state.verified:
+    
+    st.title("Desj Visualization Graph")
 
     st.write("Please verify your email to continue:")
     user_email = st.text_input("Enter your company email:")
@@ -73,9 +65,6 @@ if not st.session_state.verified:
     st.stop()
 
 
-# ------------------------------------------------------------
-# ⭐ SECURE AREA (SHOWN ONLY AFTER LOGIN)
-# ------------------------------------------------------------
 import streamlit as st
 import pandas as pd
 import graphviz
