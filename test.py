@@ -258,24 +258,35 @@ st.set_page_config(page_title="L-R Directed Data Flow", layout="centered")
 hide_streamlit_ui = """
 <style>
 
-/* ---- HIDE TOP-RIGHT SHARE, STAR, EDIT, GITHUB ---- */
-button[title="Share"],
-button[title="Save"],
-button[title="Edit"],
-a[title="View source code"],
-a[aria-label="GitHub repository"],
-header button[kind="icon"] svg[data-testid="stSvgIcon"]:not([width="16"]) {
-    display: none !important;
-}
-
-/* ---- POSITIONED CONTAINER (robust hiding) ---- */
+/* --- HIDE everything except the last (3-dots) icon --- */
 header [data-testid="stHeaderActions"] > *:not(:last-child) {
     display: none !important;
 }
 
-/* ---- HIDE MANAGE APP BUTTON (BOTTOM RIGHT) ---- */
-[data-testid="stDeployButton"],
-.stAppDeployButton {
+/* --- Additional deep removal for stubborn icons --- */
+
+/* Hide Share icon (3 connected dots icon) */
+header svg[path*="M15 8a3 3 0 1 0-2.83-4"] {
+    display: none !important;
+}
+
+/* Hide Star icon */
+header svg[path*="M12 .587l3.668 7.568L24 9.748"] {
+    display: none !important;
+}
+
+/* Hide Pencil (Edit) icon */
+header svg[path*="M12.3 2.3l9.4 9.4"] {
+    display: none !important;
+}
+
+/* Hide GitHub cat icon */
+header svg[path*="M12 .297c-6.63 0-12 5.373-12 12"] {
+    display: none !important;
+}
+
+/* Hide Manage App (Deploy) */
+[data-testid="stDeployButton"], .stAppDeployButton {
     display: none !important;
 }
 
