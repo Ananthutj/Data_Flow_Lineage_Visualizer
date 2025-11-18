@@ -2,49 +2,47 @@ import streamlit as st
 import base64
 
 st.set_page_config(page_title="Secure Streamlit Portal", layout="centered")
+st.title("🔐 Secure Streamlit Portal")
 
-st.title("Desj Visualization Portal")
-
-params = st.query_params
+# ---------------------------
+# Get the Base64 encoded email from URL
+# ---------------------------
+params = st.experimental_get_query_params()
 encoded_data = params.get("data", [""])[0]
 
 if not encoded_data:
-    st.error("Invalid access. Please open this app through Power Apps.")
+    st.error("❌ Invalid access. Please open this app through Power Apps.")
     st.stop()
 
-    
+# Decode the email
 try:
     decoded_email = base64.b64decode(encoded_data).decode("utf-8")
-    st.write("DECODED:", decoded_email)
-except Exception as e:
-    st.write("ERROR:", str(e))
-    st.error("Invalid or corrupted link.")
+except Exception:
+    st.error("❌ Invalid or corrupted link.")
     st.stop()
 
+# ---------------------------
+# Ask user to enter their email for verification
+# ---------------------------
+st.write("Please verify your email to continue:")
+user_email = st.text_input("Enter your company email:")
 
-# Initialize session
-if "verified" not in st.session_state:
-    st.session_state.verified = False
+if st.button("Verify"):
+    if not user_email:
+        st.warning("Please enter your email.")
+    elif user_email.strip().lower() == decoded_email.strip().lower():
+        st.success(f"✅ Access granted! Welcome, {user_email}")
+        
+        # ---------------------------
+        # Secure section (visible only after verification)
+        # ---------------------------
+        st.write("This is your secure content area.")
+        st.write("You can now show dashboard, data, or reports here.")
 
-if not st.session_state.verified:
+    else:
+        st.error("❌ Email does not match. Access denied.")
 
-    st.write("Please verify your email to continue:")
-    user_email = st.text_input("Enter your company email:")
 
-    if st.button("Verify"):
-        if not user_email:
-            st.warning("Please enter your email.")
-        elif user_email.strip().lower() == decoded_email.strip().lower():
-            st.session_state.verified = True
-            st.session_state.user_email = user_email
-            st.rerun()   # ---- FIX 3 ----
-        else:
-            st.error("Email does not match. Access denied.")
-
-if not st.session_state.verified:
-    st.stop()
-
-st.success(f"Welcome, {st.session_state.user_email}!")
 
 # ------------------------------------------------------
 # STEP 2 — SHOW YOUR DATA-FLOW GRAPH ONLY AFTER LOGIN
