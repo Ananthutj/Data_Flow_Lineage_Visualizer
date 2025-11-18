@@ -5,7 +5,7 @@ st.set_page_config(page_title="Secure Streamlit Portal", layout="centered")
 st.title("🔐 Secure Streamlit Portal")
 
 # ---------------------------
-# Get the Base64 encoded email from URL
+# Get Base64 encoded email from URL
 # ---------------------------
 params = st.experimental_get_query_params()
 encoded_data = params.get("data", [""])[0]
@@ -22,29 +22,29 @@ except Exception:
     st.stop()
 
 # ---------------------------
-# Ask user to enter their email for verification
+# Ask user to enter their email
 # ---------------------------
 st.write("Please verify your email to continue:")
 user_email = st.text_input("Enter your company email:")
+
+verified = False
 
 if st.button("Verify"):
     if not user_email:
         st.warning("Please enter your email.")
     elif user_email.strip().lower() == decoded_email.strip().lower():
         st.success(f"✅ Access granted! Welcome, {user_email}")
-        
-        # ---------------------------
-        # Secure section (visible only after verification)
-        # ---------------------------
-        st.write("This is your secure content area.")
-        st.write("You can now show dashboard, data, or reports here.")
-
+        verified = True
     else:
         st.error("❌ Email does not match. Access denied.")
 
+# STOP PAGE IF NOT VERIFIED
+if not verified:
+    st.stop()
 
-# ---- FROM HERE, YOUR ORIGINAL STEP 2 CODE GOES BELOW ----
-
+# -------------------------------------------------------
+# ⭐ SECURE AREA — All heavy imports ONLY after verified
+# -------------------------------------------------------
 import pandas as pd
 import requests
 from io import BytesIO
@@ -56,6 +56,9 @@ st.set_page_config(page_title="Data Flow Graph", layout="wide")
 st.title("L-R Directed Data Flow")
 
 warnings.filterwarnings("ignore", message="Unverified HTTPS request")
+
+# ---- rest of your graph code continues below ----
+
 
 flow_url = "https://a3c669f6ac2e4e77ad43beab3e15be.e7.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f5a74c737e714f8eb83902879047a935/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=g5Zyvj8xIGnKizi0lv6XCdTWbaWuahF1krJTBBq35KI"
 st.info("Fetching Excel from SharePoint via Power Automate...")
