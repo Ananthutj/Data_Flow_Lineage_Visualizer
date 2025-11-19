@@ -909,54 +909,14 @@ def go_to_graph():
 if st.session_state.page == "graph":
 
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
-
     st.markdown("""
-    <style>
-        [data-testid="stToolbar"] {
-            display: visible !important;
-        }
-    </style>
-
-    <script>
-        function addExpandButton() {
-            if (!document.getElementById('customExpandBtn')) {
-                const btn = document.createElement('div');
-                btn.id = 'customExpandBtn';
-                btn.innerHTML = '⮜';  // Chevron icon
-                btn.style.position = 'fixed';
-                btn.style.top = '1rem';
-                btn.style.left = '1rem';
-                btn.style.zIndex = '9999';
-                btn.style.cursor = 'pointer';
-                btn.style.background = '#333';
-                btn.style.color = '#fff';
-                btn.style.padding = '8px';
-                btn.style.borderRadius = '50%';
-                btn.style.fontSize = '20px';
-                btn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
-                btn.onclick = function() {
-                    const sidebar = document.querySelector('[data-testid="stSidebar"]');
-                    if (sidebar) {
-                        sidebar.style.display = 'block';
-                        sidebar.style.visibility = 'visible';
-                        sidebar.style.width = '1000px'; // Adjust width
-                    }
-                    btn.remove();
-                };
-                document.body.appendChild(btn);
+        <style>
+            /* Hide Share, Fork, and GitHub buttons in the top-right toolbar */
+            [data-testid="stToolbar"] {
+                display: none !important;
             }
-        }
-
-        // Watch for sidebar collapse
-        setInterval(function() {
-            const sidebar = document.querySelector('[data-testid="stSidebar"]');
-            if (sidebar && sidebar.style.display === 'none') {
-                addExpandButton();
-            }
-        }, 1000);
-    </script>
-""", unsafe_allow_html=True)
-
+        </style>
+    """, unsafe_allow_html=True)
 
     st.title("L-R Directed Data Flow")
 
