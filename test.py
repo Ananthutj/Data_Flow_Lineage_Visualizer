@@ -915,7 +915,7 @@ if st.session_state.page == "graph":
         display: none !important;    
     }
     
-    ._profileContainer_gzau3_53{
+    ._profilePreview_gzau3_63{
         display: none !important;
     }
     </style>
