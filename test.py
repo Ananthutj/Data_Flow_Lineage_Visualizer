@@ -921,14 +921,14 @@ hide_streamlit_ui = """
 <style>
 
 /* -------------------------
-   REMOVE SHARE BUTTON (NEW)
+   REMOVE SHARE BUTTON
    ------------------------- */
 div[data-testid="stActionButton"] {
     display: none !important;
 }
 
 /* -------------------------
-   REMOVE GitHub ICON (NEW)
+   REMOVE GitHub ICON
    ------------------------- */
 a[href*="github.com"] {
     display: none !important;
@@ -936,20 +936,20 @@ a[href*="github.com"] {
 }
 
 /* -------------------------
-   REMOVE 'EDIT' / 'FORK'
-   Streamlit cloud buttons
+   REMOVE EDIT / FORK
    ------------------------- */
 div[data-testid="stToolbarAction"] {
     display: none !important;
 }
 
 /* -------------------------
-   REMOVE NEW "Top Toolbar"
+   REMOVE ONLY TOOLBAR — SAFE WAY
+   (Do NOT remove header completely)
    ------------------------- */
 header[data-testid="stHeader"] {
-    height: 0px !important;
+    background: transparent !important;
 }
-header[data-testid="stHeader"] * {
+header[data-testid="stHeader"] > div {
     display: none !important;
 }
 
@@ -960,7 +960,9 @@ button[data-testid="collapsedControl"] {
     display: none !important;
 }
 
-/* Keep sidebar always open */
+/* -------------------------
+   KEEP SIDEBAR ALWAYS VISIBLE
+   ------------------------- */
 section[data-testid="stSidebar"] {
     min-width: 18rem !important;
     max-width: 18rem !important;
