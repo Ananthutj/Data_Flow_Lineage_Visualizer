@@ -9,8 +9,7 @@ st.markdown("""
         display: none !important;    
     }
     
-    
-    .footer {
+    footer {
         display: none !important;
     }
 
