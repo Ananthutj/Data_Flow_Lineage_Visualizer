@@ -909,13 +909,38 @@ def go_to_graph():
 if st.session_state.page == "graph":
 
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
+#     st.markdown("""
+#     <style>
+
+#         /* ---- SHOW expand icon when sidebar is collapsed ---- */
+#         [data-testid="collapsedControl"] {
+#             display:  !important;
+            
+#         }
+
+#         /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
+#         [data-testid="stToolbar"] {
+#             display: none !important;
+#         }
+
+#     </style>
+# """, unsafe_allow_html=True)
+
+
     st.markdown("""
     <style>
 
-        /* ---- SHOW expand icon when sidebar is collapsed ---- */
+        /* Always make the expand/collapse icon visible */
         [data-testid="collapsedControl"] {
-            display:  !important;
-            
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Hide the collapse icon ONLY when sidebar is already open */
+        [data-testid="stSidebar"][aria-expanded="true"] + [data-testid="collapsedControl"],
+        [data-testid="stSidebar"][aria-expanded="true"] ~ [data-testid="collapsedControl"] {
+            display: none !important;
         }
 
         /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
@@ -924,7 +949,8 @@ if st.session_state.page == "graph":
         }
 
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+
 
 
     st.title("L-R Directed Data Flow")
