@@ -16,7 +16,7 @@ st.markdown("""
     }
     
     
-    [data-testid="appCreatorAvatar"] {
+    _profileContainer_gzau3_53{
         display: none !important;
     }
 
