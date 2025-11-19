@@ -1,7 +1,7 @@
 import streamlit as st
 import base64
 
-st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
+st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
 st.markdown("""
     <style>
