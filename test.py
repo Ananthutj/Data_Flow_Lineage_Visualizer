@@ -9,6 +9,11 @@ st.markdown("""
         display: none !important;    
     }
     
+    
+    .viewerBadge_container__1QSob {
+        display: none !important;
+    }
+
     </style>
     """, unsafe_allow_html=True)
 
