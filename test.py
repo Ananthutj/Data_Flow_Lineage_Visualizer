@@ -916,16 +916,20 @@ st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
 #     }
 # </style>
 # """
-
-
-hide_sidebar_collapse = """
+fix_sidebar = """
 <style>
-/* Hide sidebar collapse/expand button */
+
+/* Hide collapse icon */
 button[kind="sidebar"] {
     display: none !important;
 }
 
-/* Fixed sidebar width when visible */
+
+/* ---------------------------
+   When sidebar is OPEN
+----------------------------*/
+
+/* Fix width of sidebar */
 [data-testid="stSidebar"][aria-expanded="true"] {
     min-width: 18rem !important;
     max-width: 18rem !important;
@@ -935,25 +939,36 @@ button[kind="sidebar"] {
     bottom: 0 !important;
     height: 100vh !important;
     overflow-y: auto !important;
+    background-color: inherit !important;
+    z-index: 100;   /* keep sidebar above content */
 }
 
-/* MAIN CONTENT OFFSET only when sidebar is open */
+/* Shift main content to the right when sidebar is open */
+[data-testid="stSidebar"][aria-expanded="true"] + div [data-testid="stAppViewContainer"] {
+    margin-left: 18rem !important;
+}
+
+
+/* ---------------------------
+   When sidebar is CLOSED
+----------------------------*/
+
+/* Remove margin so content uses full width */
+[data-testid="stSidebar"][aria-expanded="false"] + div [data-testid="stAppViewContainer"] {
+    margin-left: 0 !important;
+}
+
+
+/* Smooth animation */
 [data-testid="stAppViewContainer"] {
     transition: margin-left 0.25s ease-in-out;
 }
 
-[data-testid="stSidebar"][aria-expanded="true"] ~ div [data-testid="stAppViewContainer"] {
-    margin-left: 18rem !important;
-}
-
-/* When sidebar is collapsed → remove offset */
-[data-testid="stSidebar"][aria-expanded="false"] ~ div [data-testid="stAppViewContainer"] {
-    margin-left: 0 !important;
-}
 </style>
 """
 
-st.markdown(hide_sidebar_collapse, unsafe_allow_html=True)
+st.markdown(fix_sidebar, unsafe_allow_html=True)
+
 
 
 
