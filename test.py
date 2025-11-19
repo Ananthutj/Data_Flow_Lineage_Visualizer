@@ -939,7 +939,7 @@ if st.session_state.page == "graph":
                     if (sidebar) {
                         sidebar.style.display = 'block';
                         sidebar.style.visibility = 'visible';
-                        sidebar.style.width = '300px'; // Adjust width
+                        sidebar.style.width = '1000px'; // Adjust width
                     }
                     btn.remove();
                 };
