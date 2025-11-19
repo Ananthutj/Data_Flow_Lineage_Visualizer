@@ -909,42 +909,50 @@ def go_to_graph():
 if st.session_state.page == "graph":
 
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
-#     st.markdown("""
-#     <style>
 
-#         /* ---- SHOW expand icon when sidebar is collapsed ---- */
-#         [data-testid="collapsedControl"] {
-#             display:  !important;
-            
-#         }
-
-#         /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
-#         [data-testid="stToolbar"] {
-#             display: none !important;
-#         }
-
-#     </style>
-# """, unsafe_allow_html=True)
+    st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
     st.markdown("""
         <style>
-            /* Force expand icon to always show when sidebar is collapsed */
-            [data-testid="collapsedControl"] {
-                display: flex !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                position: fixed !important;  /* Keep it in view */
-                top: 1rem !important;        /* Adjust position */
-                left: 0.5rem !important;     /* Adjust position */
-                z-index: 9999 !important;    /* Ensure it's above other elements */
-            }
-
-            /* Remove top-right Share / Fork / GitHub */
+            /* Hide Streamlit's top-right toolbar */
             [data-testid="stToolbar"] {
                 display: none !important;
             }
         </style>
+
+        <script>
+            // Check every second if expand button is missing
+            setInterval(function() {
+                const sidebarToggle = document.querySelector('[data-testid="collapsedControl"]');
+                if (!sidebarToggle) {
+                    // Create custom expand button
+                    if (!document.getElementById('customExpandBtn')) {
+                        const btn = document.createElement('div');
+                        btn.id = 'customExpandBtn';
+                        btn.innerHTML = '☰';  // Hamburger icon
+                        btn.style.position = 'fixed';
+                        btn.style.top = '1rem';
+                        btn.style.left = '1rem';
+                        btn.style.zIndex = '9999';
+                        btn.style.cursor = 'pointer';
+                        btn.style.background = '#333';
+                        btn.style.color = '#fff';
+                        btn.style.padding = '8px';
+                        btn.style.borderRadius = '4px';
+                        btn.style.fontSize = '18px';
+                        btn.onclick = function() {
+                            const sidebar = document.querySelector('[data-testid="stSidebar"]');
+                            if (sidebar) {
+                                sidebar.style.display = 'block';
+                            }
+                        };
+                        document.body.appendChild(btn);
+                    }
+                }
+            }, 1000);
+        </script>
     """, unsafe_allow_html=True)
+
 
     st.title("L-R Directed Data Flow")
 
