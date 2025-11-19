@@ -16,8 +16,8 @@ st.markdown("""
     }
     
     
-    ._profileContainer_gzau3_53{
-        display: none !important;
+    ._profileImage_gzau3_78 _darkThemeShadow_gzau3_91 {
+        display: none !important;  
     }
 
 
