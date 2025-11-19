@@ -910,48 +910,47 @@ if st.session_state.page == "graph":
 
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
 
-    st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
-
     st.markdown("""
-        <style>
-            /* Hide Streamlit's top-right toolbar */
-            [data-testid="stToolbar"] {
-                display: none !important;
-            }
-        </style>
+    <style>
+        /* Hide Streamlit's top-right toolbar */
+        [data-testid="stToolbar"] {
+            display: none !important;
+        }
+    </style>
 
-        <script>
-            // Check every second if expand button is missing
-            setInterval(function() {
-                const sidebarToggle = document.querySelector('[data-testid="collapsedControl"]');
-                if (!sidebarToggle) {
-                    // Create custom expand button
-                    if (!document.getElementById('customExpandBtn')) {
-                        const btn = document.createElement('div');
-                        btn.id = 'customExpandBtn';
-                        btn.innerHTML = '☰';  // Hamburger icon
-                        btn.style.position = 'fixed';
-                        btn.style.top = '1rem';
-                        btn.style.left = '1rem';
-                        btn.style.zIndex = '9999';
-                        btn.style.cursor = 'pointer';
-                        btn.style.background = '#333';
-                        btn.style.color = '#fff';
-                        btn.style.padding = '8px';
-                        btn.style.borderRadius = '4px';
-                        btn.style.fontSize = '18px';
-                        btn.onclick = function() {
-                            const sidebar = document.querySelector('[data-testid="stSidebar"]');
-                            if (sidebar) {
-                                sidebar.style.display = 'block';
-                            }
-                        };
-                        document.body.appendChild(btn);
-                    }
+    <script>
+        // Check every second if expand button is missing
+        setInterval(function() {
+            const sidebarToggle = document.querySelector('[data-testid="collapsedControl"]');
+            if (!sidebarToggle) {
+                // Create custom expand button if not already added
+                if (!document.getElementById('customExpandBtn')) {
+                    const btn = document.createElement('div');
+                    btn.id = 'customExpandBtn';
+                    btn.innerHTML = '☰';  // Hamburger icon
+                    btn.style.position = 'fixed';
+                    btn.style.top = '1rem';
+                    btn.style.left = '1rem';
+                    btn.style.zIndex = '9999';
+                    btn.style.cursor = 'pointer';
+                    btn.style.background = '#333';
+                    btn.style.color = '#fff';
+                    btn.style.padding = '8px';
+                    btn.style.borderRadius = '4px';
+                    btn.style.fontSize = '18px';
+                    btn.onclick = function() {
+                        const sidebar = document.querySelector('[data-testid="stSidebar"]');
+                        if (sidebar) {
+                            sidebar.style.display = 'block';
+                        }
+                    };
+                    document.body.appendChild(btn);
                 }
-            }, 1000);
-        </script>
-    """, unsafe_allow_html=True)
+            }
+        }, 1000);
+    </script>
+""", unsafe_allow_html=True)
+
 
 
     st.title("L-R Directed Data Flow")
