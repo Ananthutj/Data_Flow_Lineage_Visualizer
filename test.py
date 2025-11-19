@@ -30,7 +30,7 @@ except Exception:
 
 if not st.session_state.verified:
     
-    st.title("Data FLow Lineage Visualizer")
+    st.title("Data Flow Lineage Visualizer")
 
     st.write("Please verify your email to continue:")
     user_email = st.text_input("Enter your company email:")
