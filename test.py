@@ -15,9 +15,8 @@ st.markdown("""
         visibility: hidden;
     }
     
-    ._container_gzau3_1 _viewerBadge_nim44_23 {
-                visibility: hidden;
-
+    .appCreatorAvatar {
+        display: none !important;    
     }
 
 
