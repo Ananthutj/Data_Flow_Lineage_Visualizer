@@ -15,15 +15,11 @@ st.markdown("""
         visibility: hidden;
     }
     
-    footer:after {
-        content:'goodbye'; 
-        visibility: visible;
-        display: block;
-        position: relative;
-        #background-color: red;
-        padding: 5px;
-        top: 2px;
+    
+    [data-testid="appCreatorAvatar"] {
+        display: none !important;
     }
+
 
     </style>
     """, unsafe_allow_html=True)
