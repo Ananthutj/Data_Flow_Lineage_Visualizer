@@ -895,82 +895,27 @@ import base64
 
 st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
 
-# hide_icons = """
-# <style>
-#     /* Hide GitHub icon using its ID from resources */
-#     #GithubIcon {
-#         display: none !important;
-#         visibility: hidden !important;
-#     }
-
-#     /* Hide the Edit button (pencil icon) */
-#     #EditCodeIcon,  /* sometimes Streamlit uses this */
-#     button[aria-label="Edit source code"],
-#     a[aria-label="Edit source code"],
-#     button[title="Edit"],
-#     a[title="Edit"] {
-#         display: none !important;
-#         visibility: hidden !important;
-#     }
-# </style>
-# """
-
-# st.markdown(hide_icons, unsafe_allow_html=True)
-
-
-hide_streamlit_ui = """
+hide_icons = """
 <style>
+    /* Hide GitHub icon using its ID from resources */
+    #GithubIcon {
+        display: none !important;
+        visibility: hidden !important;
+    }
 
-/* Hide GitHub icon (bottom-right) */
-a[href*="github.com"] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Hide Share button */
-button[title="Share"],
-div[data-testid="stToolbarActionShare"] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Hide Fork button */
-button[title="Fork"],
-div[data-testid="stToolbarActionFork"] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Hide Edit source code button */
-button[title="Edit"],
-button[aria-label="Edit source code"],
-a[title="Edit"],
-a[aria-label="Edit source code"] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* ---------------------------
-   🔒  DISABLE SIDEBAR COLLAPSE
-   --------------------------- */
-
-/* Hide only the collapse/expand icon */
-button[data-testid="collapsedControl"] {
-    display: none !important;
-}
-
-/* Keep sidebar visible always */
-section[data-testid="stSidebar"] {
-    min-width: 18rem !important;
-    max-width: 18rem !important;
-}
-
+    /* Hide the Edit button (pencil icon) */
+    #EditCodeIcon,  /* sometimes Streamlit uses this */
+    button[aria-label="Edit source code"],
+    a[aria-label="Edit source code"],
+    button[title="Edit"],
+    a[title="Edit"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
 </style>
 """
 
-st.markdown(hide_streamlit_ui, unsafe_allow_html=True)
-
-
+st.markdown(hide_icons, unsafe_allow_html=True)
 
 if "verified" not in st.session_state:
     st.session_state.verified = False
