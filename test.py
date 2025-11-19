@@ -911,7 +911,7 @@ if st.session_state.page == "graph":
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
     st.markdown("""
     <style>
-    .stGithubIcon {
+    .stToolbarActionButton {
         display: none !important;    
     }
     </style>
