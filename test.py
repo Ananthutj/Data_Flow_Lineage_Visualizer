@@ -24,6 +24,55 @@ st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
 # """
 
 # st.markdown(hide_icons, unsafe_allow_html=True)
+
+
+# hide_streamlit_buttons = """
+# <style>
+# /* Hide GitHub icon at bottom */
+# a[href*="github.com"] {
+#     display: none !important;
+#     visibility: hidden !important;
+# }
+
+# /* Hide 'Share' button (top right) */
+# button[title="Share"],
+# button[aria-label="Share"],
+# div[data-testid="stToolbarActionShare"],
+# div[title="Share"],
+# a[title="Share"] {
+#     display: none !important;
+#     visibility: hidden !important;
+# }
+
+# /* Hide 'Fork' button (Streamlit Cloud) */
+# button[title="Fork"],
+# button[aria-label="Fork"],
+# div[data-testid="stToolbarActionFork"],
+# a[title="Fork"] {
+#     display: none !important;
+#     visibility: hidden !important;
+# }
+
+# /* Hide Edit button (pencil) */
+# button[title="Edit"],
+# button[aria-label="Edit source code"],
+# a[title="Edit"],
+# a[aria-label="Edit source code"] {
+#     display: none !important;
+#     visibility: hidden !important;
+# }
+# """
+
+# # /* Hide the entire toolbar wrapper if needed */
+# # header [data-testid="stToolbar"] {
+# #     display: none !important;
+# # }
+# # </style>
+
+# st.markdown(hide_streamlit_buttons, unsafe_allow_html=True)
+
+
+
 hide_streamlit_buttons = """
 <style>
 /* Hide GitHub icon at bottom */
@@ -32,17 +81,16 @@ a[href*="github.com"] {
     visibility: hidden !important;
 }
 
-/* Hide 'Share' button (top right) */
+/* Hide 'Share' button */
 button[title="Share"],
 button[aria-label="Share"],
 div[data-testid="stToolbarActionShare"],
-div[title="Share"],
 a[title="Share"] {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* Hide 'Fork' button (Streamlit Cloud) */
+/* Hide 'Fork' button */
 button[title="Fork"],
 button[aria-label="Fork"],
 div[data-testid="stToolbarActionFork"],
@@ -51,7 +99,7 @@ a[title="Fork"] {
     visibility: hidden !important;
 }
 
-/* Hide Edit button (pencil) */
+/* Hide Edit button */
 button[title="Edit"],
 button[aria-label="Edit source code"],
 a[title="Edit"],
@@ -59,13 +107,17 @@ a[aria-label="Edit source code"] {
     display: none !important;
     visibility: hidden !important;
 }
-"""
 
-# /* Hide the entire toolbar wrapper if needed */
-# header [data-testid="stToolbar"] {
-#     display: none !important;
-# }
-# </style>
+/* Prevent Sidebar Collapse */
+button[data-testid="collapsedControl"] {
+    display: none !important;
+}
+section[data-testid="stSidebar"] {
+    min-width: 18rem !important;
+    max-width: 18rem !important;
+}
+</style>
+"""
 
 st.markdown(hide_streamlit_buttons, unsafe_allow_html=True)
 
