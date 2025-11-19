@@ -911,14 +911,12 @@ if st.session_state.page == "graph":
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
     st.markdown("""
     <style>
-        /* Hide Share, Fork, and GitHub buttons individually by position */
-        [data-testid="stToolbar"] > div:nth-child(2),  /* Share */
-        [data-testid="stToolbar"] > div:nth-child(3),  /* Star/Fork */
-        [data-testid="stToolbar"] > div:nth-child(4) { /* GitHub */
+        /* Keep only the first child (sidebar toggle) and hide all others */
+        [data-testid="stToolbar"] > div:not(:first-child) {
             display: none !important;
         }
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 
     st.title("L-R Directed Data Flow")
