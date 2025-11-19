@@ -8,14 +8,8 @@ st.markdown("""
     .stToolbarActionButton {
         display: none !important;    
     }
-    
-    #MainMenu {
-        visibility: hidden; 
-    }
+
     footer {
-        visibility: hidden;
-    }
-    header {
         visibility: hidden;
     }
 
