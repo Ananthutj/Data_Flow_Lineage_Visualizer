@@ -10,7 +10,7 @@ st.markdown("""
     }
     
     
-    .viewerBadge_container__1QSob {
+    ._profileContainer_gzau3_53 {
         display: none !important;
     }
 
