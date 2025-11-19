@@ -917,61 +917,98 @@ st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
 
 # st.markdown(hide_icons, unsafe_allow_html=True)
 
-hide_streamlit_ui = """
+# hide_streamlit_ui = """
+# <style>
+
+# /* -------------------------
+#    REMOVE SHARE BUTTON
+#    ------------------------- */
+# div[data-testid="stActionButton"] {
+#     display: none !important;
+# }
+
+# /* -------------------------
+#    REMOVE GitHub ICON
+#    ------------------------- */
+# a[href*="github.com"] {
+#     display: none !important;
+#     visibility: hidden !important;
+# }
+
+# /* -------------------------
+#    REMOVE EDIT / FORK
+#    ------------------------- */
+# div[data-testid="stToolbarAction"] {
+#     display: none !important;
+# }
+
+# /* -------------------------
+#    REMOVE ONLY TOOLBAR — SAFE WAY
+#    (Do NOT remove header completely)
+#    ------------------------- */
+# header[data-testid="stHeader"] {
+#     background: transparent !important;
+# }
+# header[data-testid="stHeader"] > div {
+#     display: none !important;
+# }
+
+# /* -------------------------
+#    REMOVE SIDEBAR COLLAPSE BUTTON
+#    ------------------------- */
+# button[data-testid="collapsedControl"] {
+#     display: none !important;
+# }
+
+# /* -------------------------
+#    KEEP SIDEBAR ALWAYS VISIBLE
+#    ------------------------- */
+# section[data-testid="stSidebar"] {
+#     min-width: 18rem !important;
+#     max-width: 18rem !important;
+# }
+
+# </style>
+# """
+
+fix_sidebar = """
 <style>
 
-/* -------------------------
-   REMOVE SHARE BUTTON
-   ------------------------- */
-div[data-testid="stActionButton"] {
-    display: none !important;
-}
-
-/* -------------------------
-   REMOVE GitHub ICON
-   ------------------------- */
+/* Hide toolbar buttons (same as before) */
+div[data-testid="stActionButton"],
+div[data-testid="stToolbarAction"],
 a[href*="github.com"] {
     display: none !important;
-    visibility: hidden !important;
 }
 
-/* -------------------------
-   REMOVE EDIT / FORK
-   ------------------------- */
-div[data-testid="stToolbarAction"] {
-    display: none !important;
-}
-
-/* -------------------------
-   REMOVE ONLY TOOLBAR — SAFE WAY
-   (Do NOT remove header completely)
-   ------------------------- */
-header[data-testid="stHeader"] {
-    background: transparent !important;
-}
+/* Keep header minimal */
 header[data-testid="stHeader"] > div {
     display: none !important;
 }
 
-/* -------------------------
-   REMOVE SIDEBAR COLLAPSE BUTTON
-   ------------------------- */
-button[data-testid="collapsedControl"] {
+/* -------------------------------------------
+   HIDE COLLAPSE BUTTON ONLY WHEN SIDEBAR OPEN
+   ------------------------------------------- */
+section[data-testid="stSidebar"] + button[data-testid="collapsedControl"] {
     display: none !important;
 }
 
-/* -------------------------
-   KEEP SIDEBAR ALWAYS VISIBLE
-   ------------------------- */
-section[data-testid="stSidebar"] {
-    min-width: 18rem !important;
-    max-width: 18rem !important;
+/* -------------------------------------------
+   SHOW COLLAPSE BUTTON WHEN SIDEBAR COLLAPSED
+   (Streamlit adds is-collapsed class)
+   ------------------------------------------- */
+button[data-testid="collapsedControl"].stSidebarCollapsed {
+    display: block !important;
+    visibility: visible !important;
 }
 
 </style>
 """
 
-st.markdown(hide_streamlit_ui, unsafe_allow_html=True)
+st.markdown(fix_sidebar, unsafe_allow_html=True)
+
+
+# st.markdown(hide_streamlit_ui, unsafe_allow_html=True)
 
 
 if "verified" not in st.session_state:
