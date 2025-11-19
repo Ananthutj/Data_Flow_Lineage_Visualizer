@@ -10,7 +10,7 @@ st.markdown("""
     }
     
     footer {
-        display: none !important;
+        visibility: hidden;
     }
 
     </style>
