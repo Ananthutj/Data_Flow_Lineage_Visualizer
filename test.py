@@ -3,37 +3,21 @@ import base64
 
 st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
-# st.set_option("client.toolbarMode", "viewer")
-
-# st.markdown("""
-#     <style>
-#     .stToolbarActionButton {
-#         display: none !important;    
-#     }
-
-#     footer {
-#         visibility: hidden;
-#     }
-
-#     </style>
-#     """, unsafe_allow_html=True)
+st.set_option("client.toolbarMode", "viewer")
 
 st.markdown("""
     <style>
-    /* Hide the profile preview section */
-    ._profilePreview_gzau3_63 {
-        display: none;
-        align-items: center;
-        padding-top: 7px;
-        padding-bottom: 7px;
-        padding-left: 1.25rem;
-        padding-right: 1.75rem;
-        gap: .5rem;
-        border-top-left-radius: .5rem;
-        transition: transform .3s ease-in-out;
+    .stToolbarActionButton {
+        display: none !important;    
     }
+
+    footer {
+        visibility: hidden;
+    }
+
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+
 
 if "verified" not in st.session_state:
     st.session_state.verified = False
