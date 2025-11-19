@@ -911,16 +911,18 @@ if st.session_state.page == "graph":
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
     st.markdown("""
     <style>
-
-    /* ---- REMOVE COLLAPSE BUTTON ---- */
+    /* Remove sidebar collapse button */
     [data-testid="collapsedControl"] {
         display: none !important;
         visibility: hidden !important;
     }
 
-
+    /* Remove Share / Fork / GitHub top-right buttons */
+    [data-testid="stToolbar"] {
+        display: none !important;
+    }
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
     st.title("L-R Directed Data Flow")
 
