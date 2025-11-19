@@ -910,13 +910,16 @@ if st.session_state.page == "graph":
 
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
     st.markdown("""
-        <style>
-            /* Hide Share, Fork, and GitHub buttons in the top-right toolbar */
-            [data-testid="stToolbar"] {
-                display: none !important;
-            }
-        </style>
-    """, unsafe_allow_html=True)
+    <style>
+        /* Hide Share, Fork, and GitHub buttons individually */
+        [data-testid="stToolbar"] button[aria-label="Share"],
+        [data-testid="stToolbar"] button[aria-label="Fork"],
+        [data-testid="stToolbar"] a[href*="github"] {
+            display: none !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 
     st.title("L-R Directed Data Flow")
 
