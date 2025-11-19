@@ -15,8 +15,7 @@ st.markdown("""
         visibility: hidden;
     }
     
-    
-    ._profileImage_gzau3_78 _darkThemeShadow_gzau3_91 {
+    ._container_gzau3_1 _viewerBadge_nim44_23 {
         display: none !important;  
     }
 
