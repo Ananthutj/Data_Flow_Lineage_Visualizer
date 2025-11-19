@@ -915,9 +915,8 @@ if st.session_state.page == "graph":
         /* ---- SHOW expand icon when sidebar is collapsed ---- */
         [data-testid="collapsedControl"] {
             display: flex !important;
-            visibility: visible !important;
+            
         }
-
 
 
         /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
