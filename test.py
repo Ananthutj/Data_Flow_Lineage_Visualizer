@@ -59,13 +59,13 @@ a[aria-label="Edit source code"] {
     display: none !important;
     visibility: hidden !important;
 }
-
-/* Hide the entire toolbar wrapper if needed */
-header [data-testid="stToolbar"] {
-    display: none !important;
-}
-</style>
 """
+
+# /* Hide the entire toolbar wrapper if needed */
+# header [data-testid="stToolbar"] {
+#     display: none !important;
+# }
+# </style>
 
 st.markdown(hide_streamlit_buttons, unsafe_allow_html=True)
 
