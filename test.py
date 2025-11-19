@@ -3,18 +3,26 @@ import base64
 
 st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
-st.markdown("""
+# st.markdown("""
+#     <style>
+#     .stToolbarActionButton {
+#         display: none !important;    
+#     }
+
+#     footer {
+#         visibility: hidden;
+#     }
+
+#     </style>
+#     """, unsafe_allow_html=True)
+
+hide_streamlit_style = """
     <style>
-    .stToolbarActionButton {
-        display: none !important;    
-    }
-
-    footer {
-        visibility: hidden;
-    }
-
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
     </style>
-    """, unsafe_allow_html=True)
+     """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
 if "verified" not in st.session_state:
     st.session_state.verified = False
