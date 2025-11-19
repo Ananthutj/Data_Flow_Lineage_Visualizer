@@ -918,16 +918,6 @@ if st.session_state.page == "graph":
             visibility: visible !important;
         }
 
-        /* ---- HIDE expand/collapse icon only when sidebar is OPEN ---- */
-        [data-testid="stSidebar"][aria-expanded="true"] ~ [data-testid="collapsedControl"] {
-            display: none !important;
-        }
-
-        /* ---- FIX sidebar width ---- */
-        [data-testid="stSidebar"] {
-            min-width: 300px !important;
-            max-width: 300px !important;
-        }
 
 
         /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
