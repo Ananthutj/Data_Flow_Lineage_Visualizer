@@ -912,23 +912,17 @@ if st.session_state.page == "graph":
 
     st.markdown("""
     <style>
-        /* Hide Streamlit's top-right toolbar */
         [data-testid="stToolbar"] {
             display: none !important;
         }
     </style>
 
     <script>
-        // Add a custom expand button when sidebar is collapsed
-        setInterval(function() {
-            const collapsedControl = document.querySelector('[data-testid="collapsedControl"]');
-            const customBtn = document.getElementById('customExpandBtn');
-
-            if (!collapsedControl && !customBtn) {
-                // Create custom button
+        function addExpandButton() {
+            if (!document.getElementById('customExpandBtn')) {
                 const btn = document.createElement('div');
                 btn.id = 'customExpandBtn';
-                btn.innerHTML = '⮜';  // Left chevron icon
+                btn.innerHTML = '⮜';  // Chevron icon
                 btn.style.position = 'fixed';
                 btn.style.top = '1rem';
                 btn.style.left = '1rem';
@@ -941,24 +935,28 @@ if st.session_state.page == "graph":
                 btn.style.fontSize = '20px';
                 btn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
                 btn.onclick = function() {
-                    // Try to click the original toggle if it reappears
-                    const toggle = document.querySelector('[data-testid="collapsedControl"]');
-                    if (toggle) {
-                        toggle.click();
-                    } else {
-                        // Force sidebar visible if toggle is missing
-                        const sidebar = document.querySelector('[data-testid="stSidebar"]');
-                        if (sidebar) {
-                            sidebar.style.display = 'block';
-                        }
+                    const sidebar = document.querySelector('[data-testid="stSidebar"]');
+                    if (sidebar) {
+                        sidebar.style.display = 'block';
+                        sidebar.style.visibility = 'visible';
+                        sidebar.style.width = '300px'; // Adjust width
                     }
-                    btn.remove(); // Remove custom button after expanding
+                    btn.remove();
                 };
                 document.body.appendChild(btn);
+            }
+        }
+
+        // Watch for sidebar collapse
+        setInterval(function() {
+            const sidebar = document.querySelector('[data-testid="stSidebar"]');
+            if (sidebar && sidebar.style.display === 'none') {
+                addExpandButton();
             }
         }, 1000);
     </script>
 """, unsafe_allow_html=True)
+
 
     st.title("L-R Directed Data Flow")
 
