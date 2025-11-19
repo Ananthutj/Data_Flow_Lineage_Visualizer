@@ -929,9 +929,6 @@ if st.session_state.page == "graph":
             max-width: 300px !important;
         }
 
-        
-
-        
 
         /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
         [data-testid="stToolbar"] {
