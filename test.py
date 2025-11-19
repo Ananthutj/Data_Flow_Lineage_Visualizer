@@ -22,7 +22,7 @@ st.markdown("""
     <style>
     /* Hide the profile preview section */
     ._profilePreview_gzau3_63 {
-        display: none !important;
+        display: none;
         align-items: center;
         padding-top: 7px;
         padding-bottom: 7px;
