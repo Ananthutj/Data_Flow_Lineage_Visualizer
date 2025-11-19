@@ -10,7 +10,7 @@ st.markdown("""
     }
     
     
-    ._profileContainer_gzau3_63 {
+    .footer {
         display: none !important;
     }
 
