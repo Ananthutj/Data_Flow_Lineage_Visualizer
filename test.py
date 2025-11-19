@@ -911,18 +911,44 @@ if st.session_state.page == "graph":
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
     st.markdown("""
     <style>
-    /* Remove sidebar collapse button */
-    [data-testid="collapsedControl"] {
-        display: none !important;
-        visibility: hidden !important;
-    }
 
-    /* Remove Share / Fork / GitHub top-right buttons */
-    [data-testid="stToolbar"] {
-        display: none !important;
-    }
+        /* ---- SHOW expand icon when sidebar is collapsed ---- */
+        [data-testid="collapsedControl"] {
+            display: flex !important;
+            visibility: visible !important;
+        }
+
+        /* ---- HIDE expand/collapse icon only when sidebar is OPEN ---- */
+        [data-testid="stSidebar"][aria-expanded="true"] ~ [data-testid="collapsedControl"] {
+            display: none !important;
+        }
+
+        /* ---- FIX sidebar width ---- */
+        [data-testid="stSidebar"] {
+            min-width: 300px !important;
+            max-width: 300px !important;
+        }
+
+        /* ---- SHIFT MAIN CONTENT ---- */
+        [data-testid="stAppViewContainer"] {
+            margin-left: 300px !important;
+        }
+
+        /* Responsiveness: keep margin when screen narrow */
+        @media (max-width: 1200px) {
+            [data-testid="stAppViewContainer"] {
+                margin-left: 300px !important;
+            }
+        }
+
+        /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
+        [data-testid="stToolbar"] {
+            display: none !important;
+        }
+
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
 
     st.title("L-R Directed Data Flow")
 
