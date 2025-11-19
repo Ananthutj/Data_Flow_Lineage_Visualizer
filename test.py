@@ -895,27 +895,82 @@ import base64
 
 st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
 
-hide_icons = """
-<style>
-    /* Hide GitHub icon using its ID from resources */
-    #GithubIcon {
-        display: none !important;
-        visibility: hidden !important;
-    }
+# hide_icons = """
+# <style>
+#     /* Hide GitHub icon using its ID from resources */
+#     #GithubIcon {
+#         display: none !important;
+#         visibility: hidden !important;
+#     }
 
-    /* Hide the Edit button (pencil icon) */
-    #EditCodeIcon,  /* sometimes Streamlit uses this */
-    button[aria-label="Edit source code"],
-    a[aria-label="Edit source code"],
-    button[title="Edit"],
-    a[title="Edit"] {
-        display: none !important;
-        visibility: hidden !important;
-    }
+#     /* Hide the Edit button (pencil icon) */
+#     #EditCodeIcon,  /* sometimes Streamlit uses this */
+#     button[aria-label="Edit source code"],
+#     a[aria-label="Edit source code"],
+#     button[title="Edit"],
+#     a[title="Edit"] {
+#         display: none !important;
+#         visibility: hidden !important;
+#     }
+# </style>
+# """
+
+# st.markdown(hide_icons, unsafe_allow_html=True)
+
+hide_streamlit_ui = """
+<style>
+
+/* -------------------------
+   REMOVE SHARE BUTTON (NEW)
+   ------------------------- */
+div[data-testid="stActionButton"] {
+    display: none !important;
+}
+
+/* -------------------------
+   REMOVE GitHub ICON (NEW)
+   ------------------------- */
+a[href*="github.com"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* -------------------------
+   REMOVE 'EDIT' / 'FORK'
+   Streamlit cloud buttons
+   ------------------------- */
+div[data-testid="stToolbarAction"] {
+    display: none !important;
+}
+
+/* -------------------------
+   REMOVE NEW "Top Toolbar"
+   ------------------------- */
+header[data-testid="stHeader"] {
+    height: 0px !important;
+}
+header[data-testid="stHeader"] * {
+    display: none !important;
+}
+
+/* -------------------------
+   REMOVE SIDEBAR COLLAPSE BUTTON
+   ------------------------- */
+button[data-testid="collapsedControl"] {
+    display: none !important;
+}
+
+/* Keep sidebar always open */
+section[data-testid="stSidebar"] {
+    min-width: 18rem !important;
+    max-width: 18rem !important;
+}
+
 </style>
 """
 
-st.markdown(hide_icons, unsafe_allow_html=True)
+st.markdown(hide_streamlit_ui, unsafe_allow_html=True)
+
 
 if "verified" not in st.session_state:
     st.session_state.verified = False
