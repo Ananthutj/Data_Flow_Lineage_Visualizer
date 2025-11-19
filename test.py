@@ -3,6 +3,8 @@ import base64
 
 st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
+st.set_option("client.toolbarMode", "viewer")
+
 # st.markdown("""
 #     <style>
 #     .stToolbarActionButton {
