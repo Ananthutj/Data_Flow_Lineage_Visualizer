@@ -917,41 +917,44 @@ st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
 # </style>
 # """
 
-# st.markdown(hide_icons, unsafe_allow_html=True)
 
 hide_sidebar_collapse = """
 <style>
-/* Hide the top-right collapse/expand button */
+/* Hide sidebar collapse/expand button */
 button[kind="sidebar"] {
     display: none !important;
 }
 
-/* Force sidebar to stay expanded */
-[data-testid="stSidebar"] {
+/* Fixed sidebar width when visible */
+[data-testid="stSidebar"][aria-expanded="true"] {
     min-width: 18rem !important;
     max-width: 18rem !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
 }
 
-/* Prevent shrinking on smaller screens */
-@media (max-width: 1200px) {
-    [data-testid="stSidebar"] {
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
-        bottom: 0 !important;
-        height: 100vh !important;
-        overflow-y: auto !important;
-    }
+/* MAIN CONTENT OFFSET only when sidebar is open */
+[data-testid="stAppViewContainer"] {
+    transition: margin-left 0.25s ease-in-out;
+}
 
-    /* Shift main content so it doesn't overlap */
-    [data-testid="stAppViewContainer"] {
-        margin-left: 18rem !important;
-    }
+[data-testid="stSidebar"][aria-expanded="true"] ~ div [data-testid="stAppViewContainer"] {
+    margin-left: 18rem !important;
+}
+
+/* When sidebar is collapsed → remove offset */
+[data-testid="stSidebar"][aria-expanded="false"] ~ div [data-testid="stAppViewContainer"] {
+    margin-left: 0 !important;
 }
 </style>
 """
 
-st.markdown(hide_sidebar_collapse, unsafe_allow_html=True)
+st.markdown(hide_icons, unsafe_allow_html=True)
+
 
 
 if "verified" not in st.session_state:
