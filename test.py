@@ -911,12 +911,12 @@ if st.session_state.page == "graph":
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
     st.markdown("""
     <style>
-        /* Keep only the first child (sidebar toggle) and hide all others */
-        [data-testid="stToolbar"] > div:not(:first-child) {
+        /* Hide everything in the top toolbar except the first element (sidebar toggle) */
+        [data-testid="stToolbar"] > :not(:first-child) {
             display: none !important;
         }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 
     st.title("L-R Directed Data Flow")
