@@ -3,27 +3,72 @@ import base64
 
 st.set_page_config(page_title="L-R Directed Data Flow", layout="centered")
 
-hide_icons = """
-<style>
-    /* Hide GitHub icon using its ID from resources */
-    #GithubIcon {
-        display: none !important;
-        visibility: hidden !important;
-    }
+# hide_icons = """
+# <style>
+#     /* Hide GitHub icon using its ID from resources */
+#     #GithubIcon {
+#         display: none !important;
+#         visibility: hidden !important;
+#     }
 
-    /* Hide the Edit button (pencil icon) */
-    #EditCodeIcon,  /* sometimes Streamlit uses this */
-    button[aria-label="Edit source code"],
-    a[aria-label="Edit source code"],
-    button[title="Edit"],
-    a[title="Edit"] {
-        display: none !important;
-        visibility: hidden !important;
-    }
+#     /* Hide the Edit button (pencil icon) */
+#     #EditCodeIcon,  /* sometimes Streamlit uses this */
+#     button[aria-label="Edit source code"],
+#     a[aria-label="Edit source code"],
+#     button[title="Edit"],
+#     a[title="Edit"] {
+#         display: none !important;
+#         visibility: hidden !important;
+#     }
+# </style>
+# """
+
+# st.markdown(hide_icons, unsafe_allow_html=True)
+hide_streamlit_buttons = """
+<style>
+/* Hide GitHub icon at bottom */
+a[href*="github.com"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide 'Share' button (top right) */
+button[title="Share"],
+button[aria-label="Share"],
+div[data-testid="stToolbarActionShare"],
+div[title="Share"],
+a[title="Share"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide 'Fork' button (Streamlit Cloud) */
+button[title="Fork"],
+button[aria-label="Fork"],
+div[data-testid="stToolbarActionFork"],
+a[title="Fork"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide Edit button (pencil) */
+button[title="Edit"],
+button[aria-label="Edit source code"],
+a[title="Edit"],
+a[aria-label="Edit source code"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide the entire toolbar wrapper if needed */
+header [data-testid="stToolbar"] {
+    display: none !important;
+}
 </style>
 """
 
-st.markdown(hide_icons, unsafe_allow_html=True)
+st.markdown(hide_streamlit_buttons, unsafe_allow_html=True)
+
 
 if "verified" not in st.session_state:
     st.session_state.verified = False
