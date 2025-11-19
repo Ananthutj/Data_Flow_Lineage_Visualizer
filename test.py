@@ -1,7 +1,7 @@
 import streamlit as st
 import base64
 
-st.set_page_config(page_title="L-R Directed Data Flow", layout="centered")
+st.set_page_config(page_title="L-R Directed Data Flow", layout="wide")
 
 # hide_icons = """
 # <style>
