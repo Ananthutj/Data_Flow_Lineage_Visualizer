@@ -934,12 +934,7 @@ if st.session_state.page == "graph":
             margin-left: 300px !important;
         }
 
-        /* Responsiveness: keep margin when screen narrow */
-        @media (max-width: 1200px) {
-            [data-testid="stAppViewContainer"] {
-                margin-left: 300px !important;
-            }
-        }
+        
 
         /* ---- REMOVE TOP RIGHT SHARE / FORK / GITHUB ---- */
         [data-testid="stToolbar"] {
