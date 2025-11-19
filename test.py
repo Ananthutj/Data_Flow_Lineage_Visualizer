@@ -14,10 +14,19 @@ st.markdown("""
     footer {
         visibility: hidden;
     }
+    
+    footer:after {
+        content:'goodbye'; 
+        visibility: visible;
+        display: block;
+        position: relative;
+        #background-color: red;
+        padding: 5px;
+        top: 2px;
+    }
 
     </style>
     """, unsafe_allow_html=True)
-
 
 
 if "verified" not in st.session_state:
