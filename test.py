@@ -911,32 +911,11 @@ if st.session_state.page == "graph":
     st.set_page_config(page_title="Data FLow Lineage Visualizer", layout="wide")
     st.markdown("""
     <style>
-        /* Keep the sidebar toggle icon visible */
-        [data-testid="collapsedControl"] {
-            display: flex !important;
-        }
+    .stGithubIcon {
+        display: none !important;    
+    }
     </style>
-
-    <script>
-        // Remove Share, Fork, and GitHub buttons dynamically
-        function removeToolbarItems() {
-            const toolbar = document.querySelector('[data-testid="stToolbar"]');
-            if (toolbar) {
-                // Find all child elements except the first one (sidebar toggle)
-                const children = toolbar.querySelectorAll('div');
-                children.forEach((child, index) => {
-                    if (index > 0) {
-                        child.style.display = 'none';
-                    }
-                });
-            }
-        }
-
-        // Run every second to ensure removal even after re-render
-        setInterval(removeToolbarItems, 1000);
-    </script>
-""", unsafe_allow_html=True)
-
+    """, unsafe_allow_html=True)
 
 
     st.title("L-R Directed Data Flow")
