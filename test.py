@@ -926,22 +926,25 @@ if st.session_state.page == "graph":
 #     </style>
 # """, unsafe_allow_html=True)
 
-
     st.markdown("""
-    <style>
-        /* Show expand icon when sidebar is collapsed */
-        [data-testid="collapsedControl"] {
-            display: flex !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
+        <style>
+            /* Force expand icon to always show when sidebar is collapsed */
+            [data-testid="collapsedControl"] {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: fixed !important;  /* Keep it in view */
+                top: 1rem !important;        /* Adjust position */
+                left: 0.5rem !important;     /* Adjust position */
+                z-index: 9999 !important;    /* Ensure it's above other elements */
+            }
 
-        /* Remove top-right Share / Fork / GitHub */
-        [data-testid="stToolbar"] {
-            display: none !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
+            /* Remove top-right Share / Fork / GitHub */
+            [data-testid="stToolbar"] {
+                display: none !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
 
     st.title("L-R Directed Data Flow")
 
