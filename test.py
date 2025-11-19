@@ -15,8 +15,10 @@ st.markdown("""
         visibility: hidden;
     }
     
-    .appCreatorAvatar {
-        display: none !important;    
+    
+    ._profileContainer_gzau3_53,
+    .viewerBadge_container__1QSob {
+        display: none !important;
     }
 
 
