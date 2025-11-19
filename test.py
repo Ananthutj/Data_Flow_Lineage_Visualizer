@@ -953,7 +953,7 @@ button[kind="sidebar"] {
 </style>
 """
 
-st.markdown(hide_icons, unsafe_allow_html=True)
+st.markdown(hide_sidebar_collapse, unsafe_allow_html=True)
 
 
 
