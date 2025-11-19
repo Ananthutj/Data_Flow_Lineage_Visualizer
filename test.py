@@ -929,10 +929,7 @@ if st.session_state.page == "graph":
             max-width: 300px !important;
         }
 
-        /* ---- SHIFT MAIN CONTENT ---- */
-        [data-testid="stAppViewContainer"] {
-            margin-left: 300px !important;
-        }
+        
 
         
 
