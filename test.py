@@ -913,7 +913,7 @@ if st.session_state.page == "graph":
     st.markdown("""
     <style>
         [data-testid="stToolbar"] {
-            display: none !important;
+            display: visible !important;
         }
     </style>
 
