@@ -21,7 +21,7 @@ st.set_option("client.toolbarMode", "viewer")
 if "verified" not in st.session_state:
     st.session_state.verified = False
 
-params = st.experimental_get_query_params()
+params = st.query_params
 encoded_data = params.get("data", [""])[0]
 
 if not encoded_data:
