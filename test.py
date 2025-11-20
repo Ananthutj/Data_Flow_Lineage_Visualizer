@@ -11,7 +11,7 @@ st.markdown("""
         content:'Developed by ';
         display: block;
         position: relative;
-        color: withite;
+        color: white;
     }
 
     </style>
