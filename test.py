@@ -9,6 +9,7 @@ st.markdown("""
     }
     
     footer {visibility: hidden;} 
+    .viewerBadge_container__1QSob {display: none;}
 
     </style>
     """, unsafe_allow_html=True)
