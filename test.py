@@ -1,20 +1,13 @@
 import streamlit as st
 import base64
 
+
 st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}
-    
-    footer {visibility: visible;}
-    
-    footer:after {
-        content:'Developed by ';
-        display: block;
-        position: relative;
-        color: white;
-        top: 5px;
-        left: 50%;
+    .stToolbarActionButton {
+        display: none !important;    
     }
+    footer {display: none}
 
     </style>
     """, unsafe_allow_html=True)
@@ -23,15 +16,6 @@ st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
 st.set_option("client.toolbarMode", "viewer")
 
-# st.markdown("""
-#     <style>
-#     .stToolbarActionButton {
-#         display: none !important;    
-#     }
-#     footer {display: none}
-
-#     </style>
-#     """, unsafe_allow_html=True)
 
 
 if "verified" not in st.session_state:
