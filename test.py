@@ -21,7 +21,10 @@ st.set_option("client.toolbarMode", "viewer")
 
 st.markdown("""
     <style>
-    .footer {visibility: hidden;}
+    .stToolbarActionButton {
+        display: none !important;    
+    }
+    footer {display: none}
 
     </style>
     """, unsafe_allow_html=True)
