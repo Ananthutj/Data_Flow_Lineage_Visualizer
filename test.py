@@ -684,17 +684,31 @@ if st.session_state.page == "graph":
         graph = build_graph(include_products=False)
 
     # ---- EXPORT AS PDF ----
-    pdf_data = graph.pipe(format="pdf")
+    # Export as SVG (best for clarity)
+    svg_data = graph.pipe(format="svg")
 
     st.download_button(
-        label="⬇️ Download Graph as PDF",
-        data=pdf_data,
-        file_name="data_flow_graph.pdf",
-        mime="application/pdf"
+        label="⬇️ Download Graph (SVG)",
+        data=svg_data,
+        file_name="data_flow_graph.svg",
+        mime="image/svg+xml"
     )
 
-    # ---- SHOW GRAPH ----
+    # --- OPTIONAL: Export as PNG ---
+    png_data = graph.pipe(format="png")
+
+    st.download_button(
+        label="⬇️ Download Graph (PNG)",
+        data=png_data,
+        file_name="data_flow_graph.png",
+        mime="image/png"
+    )
+
+    # --- DISPLAY GRAPH IN STREAMLIT ---
     st.graphviz_chart(graph, width="stretch")
+
+
+    # ---- SHOW GRAPH ----
 
 
 
