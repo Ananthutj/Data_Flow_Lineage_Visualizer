@@ -2,20 +2,19 @@ import streamlit as st
 import base64
 
 
-st.markdown("""
-    <style>
-    # .stToolbarActionButton {
-    #     display: none !important;    
-    # }
-    # footer {display: none}
-    footer {visibility: hidden;}
-    footer:after {
-        content:''; 
-        visibility: visible;
-    }
+# st.markdown("""
+#     <style>
+#     .stToolbarActionButton {
+#         display: none !important;    
+#     }
+#     footer {display: none}
 
-    </style>
-    """, unsafe_allow_html=True)
+#     </style>
+#     """, unsafe_allow_html=True)
+
+hide_streamlit_style = """ <style> #MainMenu {visibility: hidden;} footer {visibility: hidden;} </style> """
+
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
