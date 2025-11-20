@@ -236,6 +236,14 @@ if st.session_state.page == "graph":
 
     if graph_choice == "Detailed Graph":
         st.subheader("Detailed Graph")
+        svg_data = graph.pipe(format="svg")
+        st.download_button(
+            label="⬇️ Download Graph (SVG)",
+            data=svg_data,
+            file_name="data_flow_graph.svg",
+            mime="image/svg+xml"
+        )
+ 
         graph = build_graph(include_products=True)
     else:
         st.subheader("Summary Graph")
@@ -254,14 +262,7 @@ if st.session_state.page == "graph":
     #         mime="application/pdf",
     #     )
 
-    svg_data = graph.pipe(format="svg")
-    st.download_button(
-        label="⬇️ Download Graph (SVG)",
-        data=svg_data,
-        file_name="data_flow_graph.svg",
-        mime="image/svg+xml"
-    )
- 
+
 
 
     st.graphviz_chart(graph, width="stretch")
