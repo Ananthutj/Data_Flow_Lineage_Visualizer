@@ -243,15 +243,23 @@ if st.session_state.page == "graph":
 
     pdf_data = graph.pipe(format="pdf")
 
-    left, right = st.columns([8, 2])
+    # left, right = st.columns([8, 2])
 
-    with right:
-        st.download_button(
-            label="⬇️ Download as PDF",
-            data=pdf_data,
-            file_name="data_flow_graph.pdf",
-            mime="application/pdf",
-        )
+    # with right:
+    #     st.download_button(
+    #         label="⬇️ Download as PDF",
+    #         data=pdf_data,
+    #         file_name="data_flow_graph.pdf",
+    #         mime="application/pdf",
+    #     )
+
+    # Sidebar download option
+    st.sidebar.download_button(
+        label="⬇️ Download Graph as PDF",
+        data=pdf_data,
+        file_name="data_flow_graph.pdf",
+        mime="application/pdf",
+    )
 
 
     st.graphviz_chart(graph, width="stretch")
