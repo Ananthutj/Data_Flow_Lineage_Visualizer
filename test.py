@@ -21,7 +21,6 @@ st.set_option("client.toolbarMode", "viewer")
 
 st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
