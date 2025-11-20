@@ -4,10 +4,15 @@ import base64
 
 st.markdown("""
     <style>
-    .stToolbarActionButton {
-        display: none !important;    
+    # .stToolbarActionButton {
+    #     display: none !important;    
+    # }
+    # footer {display: none}
+    footer {visibility: hidden;}
+    footer:after {
+        content:''; 
+        visibility: hidden;
     }
-    footer {display: none}
 
     </style>
     """, unsafe_allow_html=True)
