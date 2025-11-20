@@ -12,6 +12,8 @@ st.markdown("""
         display: block;
         position: relative;
         color: white;
+        top: 5px;
+        left: 50%;
     }
 
     </style>
