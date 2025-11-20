@@ -241,11 +241,28 @@ if st.session_state.page == "graph":
         graph = build_graph(include_products=False)
 
 
+    # pdf_data = graph.pipe(format="pdf")
+
+    # left, right = st.columns([8, 2])
+
+    # with right:
+    #     st.download_button(
+    #         label="⬇️ Download as PDF",
+    #         data=pdf_data,
+    #         file_name="data_flow_graph.pdf",
+    #         mime="application/pdf",
+    #     )
+
+
     pdf_data = graph.pipe(format="pdf")
 
+    # Columns for left + right aligned button
     left, right = st.columns([8, 2])
 
     with right:
+        # Wrap button inside a custom div class
+        st.markdown('<div class="myDownloadButton">', unsafe_allow_html=True)
+
         st.download_button(
             label="⬇️ Download as PDF",
             data=pdf_data,
@@ -253,11 +270,10 @@ if st.session_state.page == "graph":
             mime="application/pdf",
         )
 
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    st.graphviz_chart(graph, width="stretch")
-
-
-
+    # Render Graphviz chart from the DOT source and make it responsive
+    st.graphviz_chart(graph.source, use_container_width=True)
 
 def render_table(df):
     if df.empty:
