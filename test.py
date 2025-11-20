@@ -242,7 +242,7 @@ if st.session_state.page == "graph":
         graph = build_graph(include_products=False)
 
 
-    # pdf_data = graph.pipe(format="pdf")
+    pdf_data = graph.pipe(format="pdf")
 
     # left, right = st.columns([8, 2])
 
@@ -254,32 +254,13 @@ if st.session_state.page == "graph":
     #         mime="application/pdf",
     #     )
 
-    svg_data = graph.pipe(format="svg").decode("utf-8")
-    b64_svg = base64.b64encode(svg_data.encode()).decode()
-
-    st.graphviz_chart(graph, width="stretch")
-
-    # ---------------- SVG DOWNLOAD BUTTON ----------------
-    st.markdown(
-        f"""
-        <div style='margin-top: 20px; text-align: right;'>
-            <a download="data_flow_graph.svg"
-               href="data:image/svg+xml;base64,{b64_svg}"
-               style="
-                    background:#4A90E2;
-                    padding:10px 18px;
-                    color:white;
-                    text-decoration:none;
-                    border-radius:6px;
-                    font-size:14px;
-               ">
-               ⬇️ Download as SVG
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True
+    svg_data = graph.pipe(format="svg")
+    st.download_button(
+        label="⬇️ Download Graph (SVG)",
+        data=svg_data,
+        file_name="data_flow_graph.svg",
+        mime="image/svg+xml"
     )
-
  
 
 
