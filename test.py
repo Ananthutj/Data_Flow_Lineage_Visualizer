@@ -7,6 +7,9 @@ st.markdown("""
     .stToolbarActionButton {
         display: none !important;    
     }
+    ._terminalButton_rix23_138  {
+        display: none !important;
+    }
     footer {display: none}
 
     </style>
