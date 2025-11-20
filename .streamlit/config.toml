@@ -4,6 +4,3 @@ primaryColor="#e92d2dff"
 backgroundColor="#0e1117"
 secondaryBackgroundColor="#1a1d23"
 textColor="#ffffff"
-
-[server]
-showStreamlitBadge = false
