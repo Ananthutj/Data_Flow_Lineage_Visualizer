@@ -7,10 +7,8 @@ st.markdown("""
     .stToolbarActionButton {
         display: none !important;    
     }
-    
     footer {visibility: hidden;} 
     .viewerBadge_container__1QSob {display: none;}
-
     </style>
     """, unsafe_allow_html=True)
 
