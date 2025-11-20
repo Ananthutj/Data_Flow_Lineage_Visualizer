@@ -8,7 +8,7 @@ st.markdown("""
         display: none !important;    
     }
     
-    footer {display: none !important;} 
+    footer {visibility: hidden;} 
 
     </style>
     """, unsafe_allow_html=True)
