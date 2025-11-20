@@ -253,13 +253,14 @@ if st.session_state.page == "graph":
     #         mime="application/pdf",
     #     )
 
-    # Sidebar download option
-    st.sidebar.download_button(
-        label="⬇️ Download Graph as PDF",
-        data=pdf_data,
-        file_name="data_flow_graph.pdf",
-        mime="application/pdf",
-    )
+    with st.sidebar:
+        st.download_button(
+            label="⬇️ Download as PDF",
+            data=pdf_data,
+            file_name="data_flow_graph.pdf",
+            mime="application/pdf",
+        )
+ 
 
 
     st.graphviz_chart(graph, width="stretch")
