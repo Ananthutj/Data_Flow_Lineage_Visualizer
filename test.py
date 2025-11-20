@@ -80,7 +80,6 @@ import io
 import textwrap
 import graphviz
 
-
 if st.session_state.page == "graph":
     st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
     st.title("L-R Directed Data Flow")
@@ -243,41 +242,20 @@ if st.session_state.page == "graph":
         graph = build_graph(include_products=False)
 
 
-    # pdf_data = graph.pipe(format="pdf")
-
-    # Generate multiple formats from Graphviz
-    png_data = graph.pipe(format="png")
-    jpg_data = graph.pipe(format="jpg")
-    svg_data = graph.pipe(format="svg")
+    pdf_data = graph.pipe(format="pdf")
 
     # left, right = st.columns([8, 2])
 
-    with st.sidebar:
-        st.download_button(
-            label="⬇️ Download PNG",
-            data=png_data,
-            file_name="data_flow_graph.png",
-            mime="image/png",
-            key="download_png"
-        )
+    # with right:
+    #     st.download_button(
+    #         label="⬇️ Download as PDF",
+    #         data=pdf_data,
+    #         file_name="data_flow_graph.pdf",
+    #         mime="application/pdf",
+    #     )
 
-        st.download_button(
-            label="⬇️ Download JPG",
-            data=jpg_data,
-            file_name="data_flow_graph.jpg",
-            mime="image/jpeg",
-            key="download_jpg"
-        )
-
-        st.download_button(
-            label="⬇️ Download SVG",
-            data=svg_data,
-            file_name="data_flow_graph.svg",
-            mime="image/svg+xml",
-            key="download_svg"
-        )
-
-
+    
+ 
 
 
     st.graphviz_chart(graph, width="stretch")
