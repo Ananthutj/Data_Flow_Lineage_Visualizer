@@ -79,6 +79,10 @@ import requests
 import io
 import textwrap
 import graphviz
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from PIL import Image
 
 if st.session_state.page == "graph":
     st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
@@ -242,7 +246,17 @@ if st.session_state.page == "graph":
         graph = build_graph(include_products=False)
 
 
-    pdf_data = graph.pipe(format="pdf")
+    # pdf_data = graph.pipe(format="pdf")
+
+    png_data = graph.pipe(format="png")
+
+    # Step 2: convert PNG to PDF
+    pdf_buffer = BytesIO()
+    c = canvas.Canvas(pdf_buffer, pagesize=letter)
+    image = Image.open(BytesIO(png_data))
+    c.drawImage(ImageReader(image), 0, 0, width=600, height=800)
+    c.save()
+    pdf_data = pdf_buffer.getvalue()
 
     # left, right = st.columns([8, 2])
 
