@@ -2,24 +2,15 @@ import streamlit as st
 import base64
 
 
-# st.markdown("""
-#     <style>
-#     .stToolbarActionButton {
-#         display: none !important;    
-#     }
-#     footer {visibility: hidden;} 
-#     .viewerBadge_container__1QSob {display: none;}
-#     </style>
-#     """, unsafe_allow_html=True)
-
 st.markdown("""
-<style>
-/* Hide only Streamlit Share / GitHub / Settings icons */
-[data-testid="stActionButton"] {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
+    <style>
+    .stToolbarActionButton {
+        display: none !important;    
+    }
+    footer {visibility: hidden;} 
+    .viewerBadge_container__1QSob {display: none;}
+    </style>
+    """, unsafe_allow_html=True)
 
 
 st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
@@ -263,13 +254,11 @@ if st.session_state.page == "graph":
     #         mime="application/pdf",
     #     )
 
-    with st.sidebar:
-        st.download_button(
-            label="⬇️ Download as PDF",
-            data=pdf_data,
-            file_name="data_flow_graph.pdf",
-            mime="application/pdf",
-        )
+    st.sidebar.button("Download", label="⬇️ Download Graph as PDF",
+        data=pdf_data,
+        file_name="data_flow_graph.pdf",
+        mime="application/pdf",
+        key="download_pdf")
  
 
 
