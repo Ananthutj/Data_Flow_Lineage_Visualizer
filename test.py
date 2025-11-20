@@ -79,10 +79,7 @@ import requests
 import io
 import textwrap
 import graphviz
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from io import BytesIO
-from PIL import Image
+
 
 if st.session_state.page == "graph":
     st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
@@ -248,34 +245,38 @@ if st.session_state.page == "graph":
 
     # pdf_data = graph.pipe(format="pdf")
 
+    # Generate multiple formats from Graphviz
     png_data = graph.pipe(format="png")
-
-    # Step 2: convert PNG to PDF
-    pdf_buffer = BytesIO()
-    c = canvas.Canvas(pdf_buffer, pagesize=letter)
-    image = Image.open(BytesIO(png_data))
-    c.drawImage(ImageReader(image), 0, 0, width=600, height=800)
-    c.save()
-    pdf_data = pdf_buffer.getvalue()
+    jpg_data = graph.pipe(format="jpg")
+    svg_data = graph.pipe(format="svg")
 
     # left, right = st.columns([8, 2])
 
-    # with right:
-    #     st.download_button(
-    #         label="⬇️ Download as PDF",
-    #         data=pdf_data,
-    #         file_name="data_flow_graph.pdf",
-    #         mime="application/pdf",
-    #     )
-
     with st.sidebar:
         st.download_button(
-            label="⬇️ Download Graph as PDF",
-            data=pdf_data,
-            file_name="data_flow_graph.pdf",
-            mime="application/pdf",
-            key="download_pdf"
+            label="⬇️ Download PNG",
+            data=png_data,
+            file_name="data_flow_graph.png",
+            mime="image/png",
+            key="download_png"
         )
+
+        st.download_button(
+            label="⬇️ Download JPG",
+            data=jpg_data,
+            file_name="data_flow_graph.jpg",
+            mime="image/jpeg",
+            key="download_jpg"
+        )
+
+        st.download_button(
+            label="⬇️ Download SVG",
+            data=svg_data,
+            file_name="data_flow_graph.svg",
+            mime="image/svg+xml",
+            key="download_svg"
+        )
+
 
 
 
