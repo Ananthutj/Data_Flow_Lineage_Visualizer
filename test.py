@@ -7,7 +7,7 @@ st.markdown("""
     .stToolbarActionButton {
         display: none !important;    
     }
-    ._terminalButton_rix23_138  {
+    ._profileContainer_gzau3_53  {
         display: none !important;
     }
     footer {display: none}
