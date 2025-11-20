@@ -7,7 +7,7 @@ st.markdown("""
     .stToolbarActionButton {
         display: none !important;    
     }
-    ._link_gzau3_10 {
+    _link_gzau3_10 {
         display: none !important;
     }
     footer {display: none}
