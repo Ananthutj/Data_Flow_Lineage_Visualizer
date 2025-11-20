@@ -2,15 +2,25 @@ import streamlit as st
 import base64
 
 
+# st.markdown("""
+#     <style>
+#     .stToolbarActionButton {
+#         display: none !important;    
+#     }
+#     footer {visibility: hidden;} 
+#     .viewerBadge_container__1QSob {display: none;}
+#     </style>
+#     """, unsafe_allow_html=True)
+
 st.markdown("""
-    <style>
-    .stToolbarActionButton {
-        display: none !important;    
-    }
-    footer {visibility: hidden;} 
-    .viewerBadge_container__1QSob {display: none;}
-    </style>
-    """, unsafe_allow_html=True)
+<style>
+/* Hide only Streamlit Share / GitHub / Settings icons */
+[data-testid="stActionButton"] {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 
 st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
