@@ -5,15 +5,25 @@ st.set_page_config(page_title="Data Flow Lineage Visualizer", layout="wide")
 
 st.set_option("client.toolbarMode", "viewer")
 
+# st.markdown("""
+#     <style>
+#     .stToolbarActionButton {
+#         display: none !important;    
+#     }
+
+#     footer {
+#         visibility: hidden;
+#     }
+
+#     </style>
+#     """, unsafe_allow_html=True)
+
+
 st.markdown("""
     <style>
-    .stToolbarActionButton {
-        display: none !important;    
-    }
-
-    footer {
-        visibility: hidden;
-    }
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
 
     </style>
     """, unsafe_allow_html=True)
