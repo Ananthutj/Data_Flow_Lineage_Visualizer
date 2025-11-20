@@ -11,7 +11,7 @@ st.markdown("""
     footer {visibility: hidden;}
     footer:after {
         content:''; 
-        visibility: hidden;
+        visibility: visible;
     }
 
     </style>
