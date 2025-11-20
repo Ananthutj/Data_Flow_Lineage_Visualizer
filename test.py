@@ -21,7 +21,7 @@ st.set_option("client.toolbarMode", "viewer")
 
 st.markdown("""
     <style>
-    footer {visibility: hidden;}
+    .footer {visibility: hidden;}
 
     </style>
     """, unsafe_allow_html=True)
