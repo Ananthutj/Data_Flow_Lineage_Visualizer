@@ -254,11 +254,33 @@ if st.session_state.page == "graph":
     #         mime="application/pdf",
     #     )
 
-    st.sidebar.button("Download", label="⬇️ Download Graph as PDF",
-        data=pdf_data,
-        file_name="data_flow_graph.pdf",
-        mime="application/pdf",
-        key="download_pdf")
+    with st.sidebar:
+        download_clicked = st.download_button(
+            label="⬇️ Download Graph as PDF",
+            data=pdf_data,
+            file_name="data_flow_graph.pdf",
+            mime="application/pdf",
+            key="download_pdf"
+        )
+
+ 
+
+    st.markdown("""
+    <style>
+    div.stDownloadButton > button {
+        width: 100% !important;
+        background-color: #2b2b2b !important;
+        color: white !important;
+        border: 1px solid #444 !important;
+        padding: 0.6rem 1rem !important;
+        border-radius: 8px !important;
+        text-align: left !important;
+    }
+    div.stDownloadButton > button:hover {
+        background-color: #3a3a3a !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
  
 
 
