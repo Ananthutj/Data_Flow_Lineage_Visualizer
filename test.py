@@ -7,7 +7,7 @@ st.markdown("""
     .stToolbarActionButton {
         display: none !important;    
     }
-    ._container_gzau3_1 _viewerBadge_nim44_23  {
+    ._link_gzau3_10 {
         display: none !important;
     }
     footer {display: none}
